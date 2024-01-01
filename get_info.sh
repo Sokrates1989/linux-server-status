@@ -28,7 +28,7 @@ ip a
 
 # Check for available updates.
 updates=$(apt list --upgradable 2>/dev/null)
-if [[ "$updates" =~ "[upgradable]" ]];
+if [ "${#updates}" -gt 10 ];
 then
     # Display the updates.
     echo "\n\nAvailable Updates:"
