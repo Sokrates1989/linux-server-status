@@ -25,10 +25,12 @@ ip a
 updates=$(apt list --upgradable 2>/dev/null)
 if [ -n "$updates" ]; 
 then
+    # Display the updates.
     echo "\n\nAvailable Updates:"
+    echo "\n$updates"
     
     # Tell user how to apply them.
-    echo "To update you can use this:"
+    echo "\nTo update you can use this:"
     echo "sudo apt-get -y update && sudo apt-get -y upgrade"
     
     echo "\nIf there are still updates remaining, try these:"
@@ -37,9 +39,6 @@ then
     
     echo "\nAggressive solutions are available. Read link. Try above 2 first!"
     echo "https://askubuntu.com/questions/601/the-following-packages-have-been-kept-back-why-and-how-do-i-solve-it"
-
-    # Display the updates.
-    echo "\n$updates"
 else
     echo "\n\nNo available updates."
 fi
