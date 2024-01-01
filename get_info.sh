@@ -11,7 +11,7 @@ free -h
 # Calculate percentage of memory usage.
 total_memory=$(free -m | awk '/Mem:/ {print $2}')
 used_memory=$(free -m | awk '/Mem:/ {print $3}')
-memory_usage_percentage=$(echo "scale=0; $used_memory / $total_memory * 100" | bc)
+memory_usage_percentage=$(echo "scale=2; $used_memory / $total_memory * 100" | bc)
 echo "Use%: $memory_usage_percentage %" 
 
 echo "\n\nSwap Usage:"
