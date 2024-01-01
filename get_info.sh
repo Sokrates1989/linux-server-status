@@ -27,7 +27,7 @@ if [ -n "$updates" ];
 then
     # Display the updates.
     echo "\n\nAvailable Updates:"
-    echo "\n$updates"
+    echo "$updates"
     
     # Tell user how to apply them.
     echo "\nTo update you can use this:"
