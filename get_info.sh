@@ -7,7 +7,12 @@ echo "\n\nDisk Usage:"
 df -h /
 
 echo "\n\nMemory Usage:"
-free -m
+free -h
+# Calculate percentage of memory usage.
+total_memory=$(free -m | awk '/Mem:/ {print $2}')
+used_memory=$(free -m | awk '/Mem:/ {print $3}')
+memory_usage_percentage=$(echo "scale=2; $used_memory / $total_memory * 100" | bc)
+echo "Mem%: $memory_usage_percentage" 
 
 echo "\n\nSwap Usage:"
 swapon --show
