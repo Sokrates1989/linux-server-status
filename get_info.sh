@@ -1,28 +1,28 @@
 #!/bin/bash
 
-echo "System Information:"
+echo "\nSystem Information:"
 uname -a
 
-echo -e "\nDisk Usage:"
+echo "\n\nDisk Usage:"
 df -h /
 
-echo -e "\nMemory Usage:"
+echo "\n\nMemory Usage:"
 free -m
 
-echo -e "\nSwap Usage:"
+echo "\n\nSwap Usage:"
 swapon --show
 
-echo -e "\nProcesses:"
+echo "\n\nProcesses:"
 ps aux | wc -l
 
-echo -e "\nLogged-in Users:"
+echo "\n\nLogged-in Users:"
 who
 
-echo -e "\nNetwork Information:"
+echo "\n\nNetwork Information:"
 ip a
 
-echo -e "\nAvailable Updates:"
+echo "\n\nAvailable Updates:"
 apt list --upgradable
 
-echo -e "\nLast Login Information:"
+echo "\n\nLast Login Information:"
 last
