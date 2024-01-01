@@ -23,6 +23,9 @@ ps aux | wc -l
 echo "\n\nLogged-in Users:"
 who
 
+echo "\n\nLast Login Information:"
+last
+
 echo "\n\nNetwork Information:"
 ip a
 
@@ -47,7 +50,3 @@ then
 else
     echo "\n\nNo available updates."
 fi
-
-
-echo "\n\nLast Login Information:"
-last
