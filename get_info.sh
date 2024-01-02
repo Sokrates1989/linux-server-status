@@ -12,7 +12,9 @@ display_full_info() {
 
 # Function to display available system updates.
 display_update_info() {
+    echo ""
     sh ./update_info.sh
+    echo ""
 }
 
 # Check for command-line options
