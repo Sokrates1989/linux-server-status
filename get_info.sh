@@ -1,19 +1,22 @@
 #!/bin/bash
 
+# Get the directory of the main script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Function to display short system information.
 display_short_info() {
-    sh ./short_info.sh
+    sh "$SCRIPT_DIR/short_info.sh"
 }
 
 # Function to display full system information.
 display_full_info() {
-    sh ./long_info.sh
+    sh "$SCRIPT_DIR/long_info.sh"
 }
 
 # Function to display available system updates.
 display_update_info() {
     echo ""
-    sh ./update_info.sh
+    sh "$SCRIPT_DIR/update_info.sh"
     echo ""
 }
 
