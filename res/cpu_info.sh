@@ -6,7 +6,7 @@ tab_space_default=28
 tab_space=$tab_space_default
 
 # Parse command-line options.
-while getopts ":l:s:t:" opt; do
+while getopts ":lst:" opt; do
   case $opt in
     l)
       info_type="long"
