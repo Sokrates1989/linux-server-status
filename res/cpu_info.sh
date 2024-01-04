@@ -26,7 +26,7 @@ while getopts ":l:s:t:" opt; do
 done
 
 # Validate tab_space only when using short option.
-if [ "$info_type" == "short" ]; then
+if [[ "$info_type" == "short" ]]; then
   if ((tab_space < 1)); then
     echo "Error: Tab space must be a positive integer." >&2
     exit 1
@@ -37,7 +37,11 @@ fi
 cpu_cores=$(nproc)
 
 # Get the load averages and assign them to variables.
-read -r load_1min load_5min load_15min <<< "$(uptime | awk -F'average:' '{print $2}')"
+# read -r load_1min load_5min load_15min <<< "$(uptime | awk -F'average:' '{print $2}')"
+tempfile=$(mktemp)
+uptime | awk -F'average:' '{print $2}' > "$tempfile"
+read -r load_1min load_5min load_15min < "$tempfile"
+rm "$tempfile"  # Clean up the temporary file.
 
 # Calculate the percentage of system load for each duration.
 load_percent_1min=$(echo "scale=2; $load_1min / $cpu_cores * 100" | bc)
@@ -48,10 +52,10 @@ load_percent_15min=$(echo "scale=2; $load_15min / $cpu_cores * 100" | bc)
 average_load_percent=$(echo "scale=2; ($load_percent_1min + $load_percent_5min + $load_percent_15min) / 3" | bc)
 
 # Print the results based on info_type.
-if [ "$info_type" == "short" ]; then
+if [[ "$info_type" == "short" ]]; then
   # Print with tab space.
   printf "%-$tab_space}s: %s\n" "CPU Usage" "$average_load_percent"
-elif [ "$info_type" == "long" ]; then
+elif [[ "$info_type" == "long" ]]; then
   echo "Number of CPU cores: $cpu_cores"
   echo "1-minute load percentage: $load_percent_1min%"
   echo "5-minute load percentage: $load_percent_5min%"
