@@ -1,12 +1,23 @@
 #!/bin/bash
 
+# Get the directory of the script.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Function to display available system updates.
 display_update_info() {
-    sh ./update_info.sh
+    sh "$SCRIPT_DIR/res/update_info.sh"
+}
+
+# Function to display cpu usage.
+display_cpu_info() {
+    sh "$SCRIPT_DIR/res/cpu_info.sh" -l  # To display long info.
 }
 
 echo "\nSystem Information:"
 uname -a
+
+echo "\n\nCpu Usage:"
+display_cpu_info
 
 echo "\n\nDisk Usage:"
 df -h /

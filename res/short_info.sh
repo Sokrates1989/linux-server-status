@@ -9,6 +9,13 @@ output_tab_space=28 # The space until the colon to align all output info to
 networking_tab_space=28 # The space until the colon to align all output info to
 # printf "%-${output_tab_space}s: %s\n" "sampletext1" "sampleText2"
 
+
+# Function to display cpu usage.
+display_cpu_info() {
+    sh "$SCRIPT_DIR/res/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
+}
+
+
 # System name information.
 echo "\nSystem information\n"
 dist_name=$(lsb_release -ds)
@@ -19,6 +26,9 @@ printf "%-${output_tab_space}s: %s\n" "System name" "$sys_info"
 
 # Spacer.
 echo ""
+
+# CPU Usage.
+display_cpu_info
 
 # Disk usage.
 mount_point="/"
