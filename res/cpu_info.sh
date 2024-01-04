@@ -39,6 +39,8 @@ cpu_cores=$(nproc)
 # Get the load averages and assign them to variables.
 # Use the uptime command for load averages.
 load_allmin=$(uptime | awk -F'average:' '{print $2}')
+# Remove commas from the load_allmin variable.
+load_allmin=$(echo "$load_allmin" | tr -d ',')
 echo "$load_allmin"
 # Extract individual load averages and assign them to variables.
 load_1min=$(echo "$load_allmin" | awk '{print $1}')
@@ -60,7 +62,7 @@ average_load_percent=$(echo "scale=2; ($load_percent_1min + $load_percent_5min +
 # Print the results based on info_type.
 if [ "$info_type" = "short" ]; then
   # Print with tab space.
-  printf "%-{$tab_space}s: %s\n" "CPU Usage" "$average_load_percent"
+  printf "%-${tab_space}s: %s\n" "CPU Usage" "$average_load_percent"
 elif [ "$info_type" = "long" ]; then
   echo "Number of CPU cores: $cpu_cores"
   echo "1-minute load percentage: $load_percent_1min%"
