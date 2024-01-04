@@ -12,7 +12,7 @@ networking_tab_space=28 # The space until the colon to align all output info to
 
 # Function to display cpu usage.
 display_cpu_info() {
-    sh "$SCRIPT_DIR/res/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
+    sh "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
 }
 
 

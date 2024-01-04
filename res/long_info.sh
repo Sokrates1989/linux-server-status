@@ -5,12 +5,12 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Function to display available system updates.
 display_update_info() {
-    sh "$SCRIPT_DIR/res/update_info.sh"
+    sh "$SCRIPT_DIR/update_info.sh"
 }
 
 # Function to display cpu usage.
 display_cpu_info() {
-    sh "$SCRIPT_DIR/res/cpu_info.sh" -l  # To display long info.
+    sh "$SCRIPT_DIR/cpu_info.sh" -l  # To display long info.
 }
 
 echo "\nSystem Information:"
