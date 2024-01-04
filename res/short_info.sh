@@ -10,6 +10,9 @@ networking_tab_space=28 # The space until the colon to align all output info to
 # printf "%-${output_tab_space}s: %s\n" "sampletext1" "sampleText2"
 
 
+# Get the directory of the script.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Function to display cpu usage.
 display_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
