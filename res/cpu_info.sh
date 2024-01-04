@@ -42,15 +42,15 @@ load_allmin=$(uptime | awk -F'average:' '{print $2}')
 echo "$load_allmin"
 # Extract individual load averages and assign them to variables.
 load_1min=$(echo "$load_allmin" | awk '{print $1}')
-echo "Test1"
+echo "$load_1min"
 load_5min=$(echo "$load_allmin" | awk '{print $2}')
-echo "Test2"
+echo "$load_5min"
 load_15min=$(echo "$load_allmin" | awk '{print $3}')
-echo "Test3"
+echo "$load_15min"
 
 # Calculate the percentage of system load for each duration.
 load_percent_1min=$(echo "scale=2; $load_1min / $cpu_cores * 100" | bc)
-echo "Test4"
+echo "$load_percent_1min"
 load_percent_5min=$(echo "scale=2; $load_5min / $cpu_cores * 100" | bc)
 load_percent_15min=$(echo "scale=2; $load_15min / $cpu_cores * 100" | bc)
 
