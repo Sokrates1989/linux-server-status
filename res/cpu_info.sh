@@ -41,34 +41,25 @@ cpu_cores=$(nproc)
 load_allmin=$(uptime | awk -F'average:' '{print $2}')
 # Remove commas from the load_allmin variable.
 load_allmin=$(echo "$load_allmin" | tr -d ',')
-echo "$load_allmin"
 # Extract individual load averages and assign them to variables.
 load_1min=$(echo "$load_allmin" | awk '{print $1}')
-echo "$load_1min"
 load_5min=$(echo "$load_allmin" | awk '{print $2}')
-echo "$load_5min"
 load_15min=$(echo "$load_allmin" | awk '{print $3}')
-echo "$load_15min"
 
 # Calculate the percentage of system load for each duration.
 load_percent_1min=$(echo "scale=2; $load_1min / $cpu_cores * 100" | bc)
-echo "$load_percent_1min"
 load_percent_5min=$(echo "scale=2; $load_5min / $cpu_cores * 100" | bc)
 load_percent_15min=$(echo "scale=2; $load_15min / $cpu_cores * 100" | bc)
-
-# Calculate the average load percentage.
-average_load_percent=$(echo "scale=2; ($load_percent_1min + $load_percent_5min + $load_percent_15min) / 3" | bc)
 
 # Print the results based on info_type.
 if [ "$info_type" = "short" ]; then
   # Print with tab space.
-  printf "%-${tab_space}s: %s\n" "CPU Usage" "$average_load_percent"
+  printf "%-${tab_space}s: %s\n" "CPU Usage" "$load_percent_15min% (last 15 minutes)"
 elif [ "$info_type" = "long" ]; then
   echo "Number of CPU cores: $cpu_cores"
   echo "1-minute load percentage: $load_percent_1min%"
   echo "5-minute load percentage: $load_percent_5min%"
   echo "15-minute load percentage: $load_percent_15min%"
-  echo "Average load percentage: $average_load_percent%"
 else
   echo "Invalid info_type: $info_type"
   exit 1
