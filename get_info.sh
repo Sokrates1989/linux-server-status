@@ -20,8 +20,15 @@ display_update_info() {
     echo ""
 }
 
-# Check for command-line options
-while getopts ":flus" opt; do
+# Function to display cpu info.
+display_cpu_info() {
+    echo ""
+    sh "$SCRIPT_DIR/res/cpu_info.sh" -l  # To display long info.
+    echo ""
+}
+
+# Check for command-line options.
+while getopts ":flus:-:" opt; do
     case $opt in
         f)
             display_full_info
@@ -38,6 +45,18 @@ while getopts ":flus" opt; do
         s)
             display_short_info
             exit 0
+            ;;
+        -)
+            case "${OPTARG}" in
+                cpu)
+                    display_cpu_info
+                    exit 0
+                    ;;
+                *)
+                    echo "Invalid option: --${OPTARG}" >&2
+                    exit 1
+                    ;;
+            esac
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
