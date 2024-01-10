@@ -1,3 +1,6 @@
+# Update APT repository.
+sudo apt update
+
 # Check for available updates.
 updates=$(apt list --upgradable 2>/dev/null)
 if [ "${#updates}" -gt 10 ]; # Checks length of updates var, because also a fully updated system returns the string "Listing..."
