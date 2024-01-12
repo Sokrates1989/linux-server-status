@@ -60,54 +60,48 @@ use_file_output="False"
 file_output_type="json"
 
 # Check for command-line options.
-while getopts ":flus:-:" opt; do
-    case $opt in
-        f)
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -f)
             display_full_info
             exit 0
             ;;
-        l)
+        -l)
             display_full_info
             exit 0
             ;;
-        u)
+        -u)
             display_update_info
             exit 0
             ;;
-        s)
+        -s)
             display_short_info
             exit 0
             ;;
-        -)
-            case "${OPTARG}" in
-                cpu)
-                    display_cpu_info
-                    exit 0
-                    ;;
-                help)
-                    display_help
-                    exit 0
-                    ;;
-                json)
-                    use_file_output="True"
-                    file_output_type="json"
-                    ;;
-                output-file)
-                    CUSTOM_OUTPUT_FILE="$OPTARG"
-                    ;;
-                *)
-                    echo "Invalid option: --${OPTARG}" >&2
-                    exit 1
-                    ;;
-            esac
+        --cpu)
+            display_cpu_info
+            exit 0
             ;;
-        \?)
-            echo "Invalid option: -$OPTARG" >&2
+        --help)
+            display_help
+            exit 0
+            ;;
+        --json)
+            use_file_output="True"
+            file_output_type="json"
+            shift
+            ;;
+        --output-file)
+            shift
+            CUSTOM_OUTPUT_FILE="$1"
+            shift
+            ;;
+        *)
+            echo "Invalid option: $1" >&2
             exit 1
             ;;
     esac
 done
-
 
 # Use file output?
 if [ "$use_file_output" = "True" ]; then

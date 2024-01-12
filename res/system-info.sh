@@ -25,27 +25,22 @@ convert_seconds_to_human_readable() {
 
 # Default values.
 output_type="json"
-output_file="$DESTINATION_DIR/system_info_default.json"
+output_file="$DESTINATION_DIR/system_info.json"
 
 # Check for command-line options.
-while getopts ":flus:-:" opt; do
-    case $opt in
-        -)
-            case "${OPTARG}" in
-                json)
-                    output_type="json"
-                    ;;
-                output-file)
-                    output_file="$OPTARG"
-                    ;;
-                *)
-                    echo "Invalid option: --${OPTARG}" >&2
-                    exit 1
-                    ;;
-            esac
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --json)
+            output_type="json"
+            shift
             ;;
-        \?)
-            echo "Invalid option: -$OPTARG" >&2
+        --output-file)
+            shift
+            output_file="$1"
+            shift
+            ;;
+        *)
+            echo "Invalid option: $1" >&2
             exit 1
             ;;
     esac
