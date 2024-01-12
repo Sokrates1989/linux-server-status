@@ -13,6 +13,16 @@ get_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -p 
 }
 
+# Function to convert seconds to a human-readable format
+convert_seconds_to_human_readable() {
+    local seconds="$1"
+    local hours=$((seconds / 3600))
+    local minutes=$(( (seconds % 3600) / 60 ))
+    local seconds=$((seconds % 60))
+
+    echo "${hours}h ${minutes}m ${seconds}s"
+}
+
 # Default values.
 output_type="json"
 output_file="$DESTINATION_DIR/system_info_default.json"
@@ -108,16 +118,6 @@ if [ -f /var/run/reboot-required ]; then
 else
     restart_required="No restart required"
 fi
-
-# Function to convert seconds to a human-readable format
-convert_seconds_to_human_readable() {
-    local seconds="$1"
-    local hours=$((seconds / 3600))
-    local minutes=$(( (seconds % 3600) / 60 ))
-    local seconds=$((seconds % 60))
-
-    echo "${hours}h ${minutes}m ${seconds}s"
-}
 
 # Calculate time elapsed since restart required
 time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")

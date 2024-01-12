@@ -13,6 +13,18 @@ display_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -l  # To display long info.
 }
 
+# Function to convert seconds to a human-readable format
+convert_seconds_to_human_readable() {
+    local seconds="$1"
+    local hours=$((seconds / 3600))
+    local minutes=$(( (seconds % 3600) / 60 ))
+    local seconds=$((seconds % 60))
+
+    echo "${hours}h ${minutes}m ${seconds}s"
+}
+
+
+# Output system info.
 echo "\nSystem Information:"
 uname -a
 
@@ -53,17 +65,6 @@ display_update_info
 
 # Restart required?
 echo "\n\n"
-
-# Function to convert seconds to a human-readable format
-convert_seconds_to_human_readable() {
-    local seconds="$1"
-    local hours=$((seconds / 3600))
-    local minutes=$(( (seconds % 3600) / 60 ))
-    local seconds=$((seconds % 60))
-
-    echo "${hours}h ${minutes}m ${seconds}s"
-}
-
 timestamp=$(date +%s)
 restart_required_timestamp=""
 if [ -f /var/run/reboot-required ]; then

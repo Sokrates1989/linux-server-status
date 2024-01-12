@@ -18,6 +18,16 @@ display_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
 }
 
+# Function to convert seconds to a human-readable format
+convert_seconds_to_human_readable() {
+    local seconds="$1"
+    local hours=$((seconds / 3600))
+    local minutes=$(( (seconds % 3600) / 60 ))
+    local seconds=$((seconds % 60))
+
+    echo "${hours}h ${minutes}m ${seconds}s"
+}
+
 
 # System name information.
 echo "\nSystem information\n"
@@ -93,18 +103,6 @@ fi
 
 
 # Restart required?
-echo ""
-
-# Function to convert seconds to a human-readable format
-convert_seconds_to_human_readable() {
-    local seconds="$1"
-    local hours=$((seconds / 3600))
-    local minutes=$(( (seconds % 3600) / 60 ))
-    local seconds=$((seconds % 60))
-
-    echo "${hours}h ${minutes}m ${seconds}s"
-}
-
 timestamp=$(date +%s)
 restart_required_timestamp=""
 if [ -f /var/run/reboot-required ]; then
