@@ -79,6 +79,9 @@ ip -4 a | awk -v tab_space="$networking_tab_space" '/inet/ {printf "%-"tab_space
 # Spacer.
 echo ""
 
+
+# Update APT repository quietly.
+sudo apt-get update -qq
 # Available updates.
 updates=$(apt list --upgradable 2>/dev/null)
 if [ "${#updates}" -gt 10 ]; # Checks length of updates var, because also a fully updated system returns the string "Listing..."

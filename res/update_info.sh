@@ -1,5 +1,5 @@
-# Update APT repository.
-sudo apt update
+# Update APT repository quietly.
+sudo apt-get update -qq
 
 # Check for available updates.
 updates=$(apt list --upgradable 2>/dev/null)
