@@ -41,6 +41,9 @@ done
 
 # Get current timestamp in Unix format
 timestamp=$(date +%s)
+# Get human-readable timestamp
+human_readable_timestamp=$(date -d "@$timestamp" "+%Y-%m-%d %H:%M:%S")
+
 
 # System name information.
 dist_name=$(lsb_release -ds)
@@ -95,7 +98,10 @@ fi
 # Create JSON string
 json_data=$(cat <<EOF
 {
-  "timestamp": $timestamp,
+  "timestamp": {
+    "unix_format": $timestamp,
+    "human_readable_format": "$human_readable_timestamp"
+  },
   "system_info": {
     "dist_name": "$dist_name",
     "kernel_ver": "$kernel_ver",
@@ -137,5 +143,6 @@ EOF
 
 # Write JSON string to file
 echo "$json_data" > "$output_file"
+echo "$json_data"
 
 echo "System information has been saved to $output_file with timestamp $timestamp"
