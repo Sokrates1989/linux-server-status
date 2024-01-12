@@ -54,6 +54,11 @@ display_help() {
     echo "  --output-file  Where to save the system info output (only in combination with --json)"
 }
 
+
+# Default values.
+use_file_output="False"
+file_output_type="json"
+
 # Check for command-line options.
 while getopts ":flus:-:" opt; do
     case $opt in
@@ -84,7 +89,8 @@ while getopts ":flus:-:" opt; do
                     exit 0
                     ;;
                 json)
-                    system_info_json
+                    use_file_output="True"
+                    file_output_type="json"
                     ;;
                 output-file)
                     CUSTOM_OUTPUT_FILE="$OPTARG"
@@ -102,5 +108,16 @@ while getopts ":flus:-:" opt; do
     esac
 done
 
-# If no option is specified or an invalid option is provided, display short info
-display_short_info
+
+# Use file output?
+if [ "$use_file_output" = "True" ]; then
+    if [ "$file_output_type" = "json" ]; then
+        system_info_json
+    else
+        # If no option is specified or an invalid option is provided, display short info.
+        echo "invalid file_output_type: $file_output_type"
+    fi
+else
+    # If no option is specified or an invalid option is provided, display short info.
+    display_short_info
+fi
