@@ -114,10 +114,46 @@ else
     printf "%-${output_tab_space}s: %s\n" "Restart required" "No"
 fi
 
+
+
+
+# Spacer.
+echo "\n"
+
+
+# This tools state.
+repo_url=https://github.com/Sokrates1989/linux-server-status.git
+
+# Print own repo address.
+echo "This tool (linux server status)"
+printf "%-${output_tab_space}s: %s\n" "Remote repository" "$repo_url"
+
+# Check remote connection.
+if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
+    printf "%-${output_tab_space}s: %s\n" "Remote repo state" "Accessible"
+
+    # Check local changes.
+    if [ -n "$(git status --porcelain)" ]; then
+        printf "%-${output_tab_space}s: %s\n" "Local changes" "Yes. Please commit or stash your changes."
+    else
+        printf "%-${output_tab_space}s: %s\n" "Local changes" "None"
+    fi
+
+    # Check for upstream changes.
+    git fetch
+    behind_count=$(git rev-list HEAD..origin/main --count)
+    if [ "$behind_count" -gt 0 ]; then
+        printf "%-${output_tab_space}s: %s\n" "Repo updateable" "Yes. $behind_count commits behind. Pull is recommended."
+    else
+        printf "%-${output_tab_space}s: %s\n" "Repo updateable" "No"
+    fi
+else
+    printf "%-${output_tab_space}s: %s\n" "Remote repo state" "Not accessible!! Check connection!!"
+fi
+
 # Spacer.
 echo "\n"
 echo "To view full system report use -f option -> sh path/to/get_info.sh -f  "
 echo "To view all available options use --help -> sh path/to/get_info.sh --help  "
 echo ""
-
 

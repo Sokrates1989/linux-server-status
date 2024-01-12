@@ -75,3 +75,29 @@ if [ -f /var/run/reboot-required ]; then
 else
     echo "No restart required"
 fi
+
+
+# Is the repo of this project itself up to date?
+echo "\n\n"
+
+# Check remote connection.
+repo_url=https://github.com/Sokrates1989/linux-server-status.git
+if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
+    echo "Remote repository $repo_url is accessible."
+
+    # Check local changes.
+    if [ -n "$(git status --porcelain)" ]; then
+        echo "There are local changes. Please commit or stash your changes before pulling."
+    fi
+
+    # Check for upstream changes.
+    git fetch
+    behind_count=$(git rev-list HEAD..origin/main --count)
+    if [ "$behind_count" -gt 0 ]; then
+        echo "The local repository is $behind_count commits behind the remote repository. Pull is recommended."
+    else
+        echo "No changes in the remote repository."
+    fi
+else
+    echo "Error: Remote repository $repo_url is not accessible."
+fi

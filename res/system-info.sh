@@ -118,6 +118,38 @@ fi
 time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
 
 
+
+# This tools state.
+repo_url=https://github.com/Sokrates1989/linux-server-status.git
+repo_accessible="unknown"
+local_changes="unknown"
+up_to_date="unknown"
+behind_count="unknown"
+
+# Check remote connection.
+if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
+    repo_accessible="True"
+
+    # Check local changes.
+    if [ -n "$(git status --porcelain)" ]; then
+        local_changes="Yes"
+    else
+        local_changes="None"
+    fi
+
+    # Check for upstream changes.
+    git fetch
+    behind_count=$(git rev-list HEAD..origin/main --count)
+    if [ "$behind_count" -gt 0 ]; then
+        up_to_date="False"
+    else
+        up_to_date="True"
+    fi
+else
+    repo_accessible="False"
+fi
+
+
 # Create JSON string
 json_data=$(cat <<EOF
 {
@@ -164,6 +196,13 @@ json_data=$(cat <<EOF
     "status": "$restart_required",
     "time_elapsed_seconds": "$time_elapsed",
     "time_elapsed_human_readable": "$time_elapsed_human_readable"
+  },
+  "linux_server_state_tool": {
+    "repo_url": "$repo_url",
+    "repo_accessible": "$repo_accessible",
+    "local_changes": "$local_changes",
+    "up_to_date": "$up_to_date",
+    "behind_count": "$behind_count"
   }
 }
 EOF
@@ -174,3 +213,4 @@ echo "$json_data" > "$output_file"
 echo "$json_data"
 
 echo "System information has been saved to $output_file with timestamp $timestamp"
+
