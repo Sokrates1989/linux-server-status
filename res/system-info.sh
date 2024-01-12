@@ -15,7 +15,7 @@ get_cpu_info() {
 
 # Default values.
 output_type="json"
-output_file="$DESTINATION_DIR/system_info.json"
+output_file="$DESTINATION_DIR/system_info_default.json"
 
 # Check for command-line options.
 while getopts ":flus:-:" opt; do
@@ -24,7 +24,9 @@ while getopts ":flus:-:" opt; do
             case "${OPTARG}" in
                 json)
                     output_type="json"
-                    output_file="$DESTINATION_DIR/system_info.json"
+                    ;;
+                output-file)
+                    output_file="$OPTARG"
                     ;;
                 *)
                     echo "Invalid option: --${OPTARG}" >&2
@@ -95,6 +97,32 @@ else
     amount_of_available_updates=0
 fi
 
+
+# Check if a system restart is required
+restart_required=""
+restart_required_timestamp=""
+if [ -f /var/run/reboot-required ]; then
+    restart_required="System restart required"
+    restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
+    time_elapsed=$((timestamp - restart_required_timestamp))
+else
+    restart_required="No restart required"
+fi
+
+# Function to convert seconds to a human-readable format
+convert_seconds_to_human_readable() {
+    local seconds="$1"
+    local hours=$((seconds / 3600))
+    local minutes=$(( (seconds % 3600) / 60 ))
+    local seconds=$((seconds % 60))
+
+    echo "${hours}h ${minutes}m ${seconds}s"
+}
+
+# Calculate time elapsed since restart required
+time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
+
+
 # Create JSON string
 json_data=$(cat <<EOF
 {
@@ -136,6 +164,11 @@ json_data=$(cat <<EOF
   "updates": {
     "amount_of_available_updates": "$amount_of_available_updates",
     "updates_available_output": "$updates_available_output"
+  },
+  "system_restart": {
+    "status": "$restart_required",
+    "time_elapsed_seconds": "$time_elapsed",
+    "time_elapsed_human_readable": "$time_elapsed_human_readable"
   }
 }
 EOF

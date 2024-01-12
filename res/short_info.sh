@@ -87,6 +87,17 @@ then
 else
     printf "%-${output_tab_space}s: %s\n" "Updates Available" "No"
 fi
+# Restart required?
+echo ""
+restart_required_timestamp=""
+if [ -f /var/run/reboot-required ]; then
+    restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
+    time_elapsed=$((timestamp - restart_required_timestamp))
+    time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
+    echo "System restart required since $time_elapsed_human_readable"
+else
+    echo "No restart required"
+fi
 
 # Spacer.
 echo "\n"

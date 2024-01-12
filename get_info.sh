@@ -28,8 +28,16 @@ display_cpu_info() {
 }
 
 # Function to display and save system information as json.
+CUSTOM_OUTPUT_FILE="NONE"
+server_states_dir="$SCRIPT_DIR/server-states"
+server_states_json_file="$server_states_dir/system_info.json"
 system_info_json() {
-    sh "$SCRIPT_DIR/res/system-info.sh" --json
+    # Check if CUSTOM_OUTPUT_FILE is still in its default value
+    if [ "$CUSTOM_OUTPUT_FILE" = "NONE" ]; then
+        sh "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$server_states_json_file"
+    else
+        sh "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$CUSTOM_OUTPUT_FILE"
+    fi
 }
 
 # Function to display help information.
@@ -43,6 +51,7 @@ display_help() {
     echo "  --cpu          Display CPU information"
     echo "  --help         Display this help message"
     echo "  --json         Save and display info in json format"
+    echo "  --output-file  Where to save the system info output (only in combination with --json)"
 }
 
 # Check for command-line options.
@@ -76,7 +85,9 @@ while getopts ":flus:-:" opt; do
                     ;;
                 json)
                     system_info_json
-                    exit 0
+                    ;;
+                output-file)
+                    CUSTOM_OUTPUT_FILE="$OPTARG"
                     ;;
                 *)
                     echo "Invalid option: --${OPTARG}" >&2

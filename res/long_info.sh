@@ -48,3 +48,26 @@ ip a
 # Update info.
 echo "\n\n"
 display_update_info
+
+
+# Function to convert seconds to a human-readable format
+convert_seconds_to_human_readable() {
+    local seconds="$1"
+    local hours=$((seconds / 3600))
+    local minutes=$(( (seconds % 3600) / 60 ))
+    local seconds=$((seconds % 60))
+
+    echo "${hours}h ${minutes}m ${seconds}s"
+}
+
+# Restart required?
+echo "\n\n"
+restart_required_timestamp=""
+if [ -f /var/run/reboot-required ]; then
+    restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
+    time_elapsed=$((timestamp - restart_required_timestamp))
+    time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
+    echo "System restart required since $time_elapsed_human_readable"
+else
+    echo "No restart required"
+fi
