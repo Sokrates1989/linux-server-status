@@ -1,16 +1,16 @@
 #!/bin/bash
 
 # Get the directory of the script.
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Specify the destination directory of server-state file.
 MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-DESTINATION_DIR="$MAIN_DIR/server-state"
+DESTINATION_DIR="$MAIN_DIR/server-states"
 
 
 # Function to display cpu info.
 get_cpu_info() {
-    sh "$SCRIPT_DIR/cpu_info.sh" --json 
+    sh "$SCRIPT_DIR/cpu_info.sh" -p 
 }
 
 # Default values.
