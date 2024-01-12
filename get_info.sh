@@ -27,6 +27,11 @@ display_cpu_info() {
     echo ""
 }
 
+# Function to display and save system information as json.
+system_info_json() {
+    sh "$SCRIPT_DIR/res/system-info.sh" --json
+}
+
 # Function to display help information.
 display_help() {
     echo "Usage: $0 [OPTIONS]"
@@ -37,6 +42,7 @@ display_help() {
     echo "  -s             Display short system information"
     echo "  --cpu          Display CPU information"
     echo "  --help         Display this help message"
+    echo "  --json         Save and display info in json format"
 }
 
 # Check for command-line options.
@@ -66,6 +72,10 @@ while getopts ":flus:-:" opt; do
                     ;;
                 help)
                     display_help
+                    exit 0
+                    ;;
+                json)
+                    system_info_json
                     exit 0
                     ;;
                 *)

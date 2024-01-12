@@ -6,13 +6,17 @@ tab_space_default=28
 tab_space=$tab_space_default
 
 # Parse command-line options.
-while getopts ":lst:" opt; do
+while getopts ":lspt:" opt; do
   case $opt in
     l)
       info_type="long"
       ;;
     s)
       info_type="short"
+      ;;
+    p)
+      # Processable -> just print number of 15 min cpu usage.
+      info_type="15minNumberOnly"
       ;;
     t)
       # Only takes effect when using -s (short) option.
@@ -60,6 +64,8 @@ elif [ "$info_type" = "long" ]; then
   echo "1-minute load percentage: $load_percent_1min%"
   echo "5-minute load percentage: $load_percent_5min%"
   echo "15-minute load percentage: $load_percent_15min%"
+elif [ "$info_type" = "15minNumberOnly" ]; then
+  echo $load_percent_15min
 else
   echo "Invalid info_type: $info_type"
   exit 1
