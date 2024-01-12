@@ -91,6 +91,7 @@ fi
 # Spacer.
 echo "\n"
 echo "To view full system report use -f option -> sh path/to/get_info.sh -f  "
+echo "To view all available options use --help -> sh path/to/get_info.sh --help  "
 echo ""
 
 

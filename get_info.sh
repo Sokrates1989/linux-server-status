@@ -27,6 +27,18 @@ display_cpu_info() {
     echo ""
 }
 
+# Function to display help information.
+display_help() {
+    echo "Usage: $0 [OPTIONS]"
+    echo "Options:"
+    echo "  -f, --full     Display full system information"
+    echo "  -l             Alias for --full"
+    echo "  -u             Display available system updates"
+    echo "  -s             Display short system information"
+    echo "  --cpu          Display CPU information"
+    echo "  --help         Display this help message"
+}
+
 # Check for command-line options.
 while getopts ":flus:-:" opt; do
     case $opt in
@@ -52,6 +64,10 @@ while getopts ":flus:-:" opt; do
                     display_cpu_info
                     exit 0
                     ;;
+                help)
+                    display_help
+                    exit 0
+                    ;;
                 *)
                     echo "Invalid option: --${OPTARG}" >&2
                     exit 1
@@ -67,4 +83,3 @@ done
 
 # If no option is specified or an invalid option is provided, display short info
 display_short_info
-
