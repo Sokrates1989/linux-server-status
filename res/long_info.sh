@@ -50,6 +50,10 @@ echo "\n\n"
 display_update_info
 
 
+
+# Restart required?
+echo "\n\n"
+
 # Function to convert seconds to a human-readable format
 convert_seconds_to_human_readable() {
     local seconds="$1"
@@ -60,8 +64,7 @@ convert_seconds_to_human_readable() {
     echo "${hours}h ${minutes}m ${seconds}s"
 }
 
-# Restart required?
-echo "\n\n"
+timestamp=$(date +%s)
 restart_required_timestamp=""
 if [ -f /var/run/reboot-required ]; then
     restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)

@@ -87,8 +87,22 @@ then
 else
     printf "%-${output_tab_space}s: %s\n" "Updates Available" "No"
 fi
+
+
 # Restart required?
 echo ""
+
+# Function to convert seconds to a human-readable format
+convert_seconds_to_human_readable() {
+    local seconds="$1"
+    local hours=$((seconds / 3600))
+    local minutes=$(( (seconds % 3600) / 60 ))
+    local seconds=$((seconds % 60))
+
+    echo "${hours}h ${minutes}m ${seconds}s"
+}
+
+timestamp=$(date +%s)
 restart_required_timestamp=""
 if [ -f /var/run/reboot-required ]; then
     restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
