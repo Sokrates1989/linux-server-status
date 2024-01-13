@@ -91,7 +91,7 @@ amount_processes=$(ps aux | wc -l)
 logged_in_users=$(who | wc -l)
 
 # Available updates.
-sudo apt update
+sudo apt-get update -qq
 updates=$(apt list --upgradable 2>/dev/null)
 amount_of_available_updates=""
 if [ "${#updates}" -gt 10 ]; then
@@ -144,6 +144,7 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
         up_to_date="False"
     else
         up_to_date="True"
+        behind_count=0
     fi
 else
     repo_accessible="False"
