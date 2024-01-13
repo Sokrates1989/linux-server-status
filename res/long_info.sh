@@ -26,6 +26,8 @@ convert_seconds_to_human_readable() {
 
 # Output system info.
 echo "\nSystem Information:"
+hostname=$(hostname)
+echo "Hostname: $hostname" 
 uname -a
 
 echo "\n\nCpu Usage:"

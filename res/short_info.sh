@@ -31,10 +31,14 @@ convert_seconds_to_human_readable() {
 
 # System name information.
 echo "\nSystem information\n"
+hostname=$(hostname)
 dist_name=$(lsb_release -ds)
 kernel_ver=$(uname -sr)
 sys_info_from_vars="${dist_name} (${kernel_ver})"
 sys_info="$(lsb_release -ds) ($(uname -sr))"
+
+# Print system name information.
+printf "%-${output_tab_space}s: %s\n" "Hostname" "$hostname" 
 printf "%-${output_tab_space}s: %s\n" "System name" "$sys_info"
 
 # Spacer.

@@ -53,6 +53,7 @@ human_readable_timestamp=$(date -d "@$timestamp" "+%Y-%m-%d %H:%M:%S")
 
 
 # System name information.
+hostname=$(hostname)
 dist_name=$(lsb_release -ds)
 kernel_ver=$(uname -sr)
 sys_info_from_vars="${dist_name} (${kernel_ver})"
@@ -159,6 +160,7 @@ json_data=$(cat <<EOF
     "human_readable_format": "$human_readable_timestamp"
   },
   "system_info": {
+    "hostname": "$hostname",
     "dist_name": "$dist_name",
     "kernel_ver": "$kernel_ver",
     "sys_info": "$sys_info"
