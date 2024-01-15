@@ -154,20 +154,20 @@ else
 fi
 
 
-if [ "$is_healthy" == true ]; then
+if [ "$is_healthy" = true ]; then
     echo "This tool (linux server status) is healthy and up to date"
 else
     # print detailed information.
-    echo "This tool (linux server status) is NOT healthy. Detailed information:"
+    echo "This tool (linux server status) is NOT healthy:"
     
-    if [ "$repo_issue" == true ]; then
+    if [ "$repo_issue" = true ]; then
         echo "Remote repository $repo_url is not accessible"
     else
-        if [ "$local_changes" == true ]; then
+        if [ "$local_changes" = true ]; then
             echo "Local repo has uncommitted changes"
         fi 
 
-        if [ "$available_updates" == true ]; then
+        if [ "$available_updates" = true ]; then
             echo "Remote Repo updateable! $behind_count commits behind. Pull is recommended."
         fi
     fi         
