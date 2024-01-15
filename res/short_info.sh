@@ -125,35 +125,55 @@ fi
 echo "\n"
 
 
-# This tools state.
+# This tool's state.
 repo_url=https://github.com/Sokrates1989/linux-server-status.git
-
-# Print own repo address.
-echo "This tool (linux server status)"
-printf "%-${output_tab_space}s: %s\n" "Remote repository" "$repo_url"
+is_healthy=true
+repo_issue=false
+local_changes=false
+available_updates=false
 
 # Check remote connection.
-if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
-    printf "%-${output_tab_space}s: %s\n" "Remote repo state" "Accessible"
+if git ls-remote --exit-code "$repo_url" >/dev/null 2>&1; then
 
     # Check local changes.
     if [ -n "$(git status --porcelain)" ]; then
-        printf "%-${output_tab_space}s: %s\n" "Local changes" "Yes. Please commit or stash your changes."
-    else
-        printf "%-${output_tab_space}s: %s\n" "Local changes" "None"
+        local_changes=true
+        is_healthy=false
     fi
 
     # Check for upstream changes.
     git fetch
     behind_count=$(git rev-list HEAD..origin/main --count)
     if [ "$behind_count" -gt 0 ]; then
-        printf "%-${output_tab_space}s: %s\n" "Repo updateable" "Yes. $behind_count commits behind. Pull is recommended."
-    else
-        printf "%-${output_tab_space}s: %s\n" "Repo updateable" "No"
+        available_updates=true
+        is_healthy=false
     fi
 else
-    printf "%-${output_tab_space}s: %s\n" "Remote repo state" "Not accessible!! Check connection!!"
+    is_healthy=false
+    repo_issue=true
 fi
+
+
+if [ "$is_healthy" == true ]; then
+    echo "This tool (linux server status) is healthy and up to date"
+else
+    # print detailed information.
+    echo "This tool (linux server status) is NOT healthy. Detailed information:"
+    
+    if [ "$repo_issue" == true ]; then
+        echo "Remote repository $repo_url is not accessible"
+    else
+        if [ "$local_changes" == true ]; then
+            echo "Local repo has uncommitted changes"
+        fi 
+
+        if [ "$available_updates" == true ]; then
+            echo "Remote Repo updateable! $behind_count commits behind. Pull is recommended."
+        fi
+    fi         
+fi
+
+
 
 # Spacer.
 echo "\n"
