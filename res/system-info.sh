@@ -107,6 +107,7 @@ fi
 # Check if a system restart is required
 restart_required=""
 restart_required_timestamp=""
+time_elapsed=0
 if [ -f /var/run/reboot-required ]; then
     restart_required="System restart required"
     restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
@@ -115,7 +116,7 @@ else
     restart_required="No restart required"
 fi
 
-# Calculate time elapsed since restart required
+# Calculate time elapsed since restart required.
 time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
 
 
