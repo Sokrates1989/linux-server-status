@@ -122,6 +122,12 @@ time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
 
 
 # This tools state.
+
+# Save the current directory to be able to revert back again to it later.
+current_dir=$(pwd)
+# Change to the Git repository directory to make git commands work.
+cd $MAIN_DIR
+
 repo_url=https://github.com/Sokrates1989/linux-server-status.git
 repo_accessible="unknown"
 local_changes="unknown"
@@ -151,6 +157,9 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
 else
     repo_accessible="False"
 fi
+
+# Revert back to the original directory.
+cd "$current_dir"
 
 
 # Create JSON string

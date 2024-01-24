@@ -2,6 +2,7 @@
 
 # Get the directory of the script.
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Function to display available system updates.
 display_update_info() {
@@ -82,6 +83,11 @@ fi
 # Is the repo of this project itself up to date?
 echo "\n\n"
 
+# Save the current directory to be able to revert back again to it later.
+current_dir=$(pwd)
+# Change to the Git repository directory to make git commands work.
+cd $MAIN_DIR
+
 # Check remote connection.
 repo_url=https://github.com/Sokrates1989/linux-server-status.git
 if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
@@ -103,3 +109,6 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
 else
     echo "Error: Remote repository $repo_url is not accessible."
 fi
+
+# Revert back to the original directory.
+cd "$current_dir"

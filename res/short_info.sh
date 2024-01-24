@@ -12,6 +12,7 @@ networking_tab_space=28 # The space until the colon to align all output info to
 
 # Get the directory of the script.
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Function to display cpu usage.
 display_cpu_info() {
@@ -124,6 +125,11 @@ fi
 # Spacer.
 echo "\n"
 
+# Save the current directory to be able to revert back again to it later.
+current_dir=$(pwd)
+# Change to the Git repository directory to make git commands work.
+cd $MAIN_DIR
+
 
 # This tool's state.
 repo_url=https://github.com/Sokrates1989/linux-server-status.git
@@ -173,6 +179,9 @@ else
     fi         
 fi
 
+
+# Revert back to the original directory.
+cd "$current_dir"
 
 
 # Spacer.
