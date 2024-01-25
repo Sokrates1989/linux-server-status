@@ -14,6 +14,11 @@ display_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -l  # To display long info.
 }
 
+# Function to display network usage.
+display_network_info() {
+    sh "$SCRIPT_DIR/network_info.sh" -l  # To display long info.
+}
+
 # Function to convert seconds to a human-readable format
 convert_seconds_to_human_readable() {
     local seconds="$1"
@@ -47,6 +52,9 @@ echo "Use%: $memory_usage_percentage%"
 
 echo "\n\nSwap Usage:"
 swapon --show
+
+echo "\n\nNetwork:"
+display_network_info
 
 echo "\n\nProcesses:"
 ps aux | wc -l

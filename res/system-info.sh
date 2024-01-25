@@ -13,6 +13,19 @@ get_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -p 
 }
 
+# Function to display network upstream info.
+get_upstream_info() {
+    sh "$SCRIPT_DIR/network_info.sh" -u
+}
+# Function to display network downstream info.
+get_downstream_info() {
+    sh "$SCRIPT_DIR/network_info.sh" -d
+}
+# Function to display total network info.
+get_total_network_info() {
+    sh "$SCRIPT_DIR/network_info.sh" -a
+}
+
 # Function to convert seconds to a human-readable format
 convert_seconds_to_human_readable() {
     local seconds="$1"
@@ -84,6 +97,11 @@ if [ -n "$swap_info" ]; then
 else
     swap_info_output="Off"
 fi
+
+# Network Info.
+upstream_avg_bits=$(get_upstream_info)
+downstream_avg_bits=$(get_downstream_info)
+total_network_avg_bits=$(get_total_network_info)
 
 # Processes.
 amount_processes=$(ps aux | wc -l)
@@ -194,6 +212,11 @@ json_data=$(cat <<EOF
   },
   "swap": {
     "swap_status": "$swap_info_output"
+  },
+  "network": {
+    "upstream_avg_bits": "$upstream_avg_bits",
+    "downstream_avg_bits": "$downstream_avg_bits",
+    "total_network_avg_bits": "$total_network_avg_bits"
   },
   "processes": {
     "amount_processes": "$amount_processes"

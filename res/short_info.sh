@@ -19,6 +19,11 @@ display_cpu_info() {
     sh "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
 }
 
+# Function to display network usage.
+display_network_info() {
+    sh "$SCRIPT_DIR/network_info.sh" -s -t $output_tab_space # To display short info with tab space
+}
+
 # Function to convert seconds to a human-readable format
 convert_seconds_to_human_readable() {
     local seconds="$1"
@@ -70,6 +75,12 @@ if [ -n "$swap_info" ]; then
 else
     printf "%-${output_tab_space}s: %s\n" "Swap Usage" "No active swap"
 fi
+
+# Spacer.
+echo ""
+
+# Network Usage.
+display_network_info
 
 
 # Spacer.
