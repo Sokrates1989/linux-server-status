@@ -32,7 +32,7 @@ tab_space=$tab_space_default
 duration_seconds=3600  # Assuming 1 hour duration for average calculation.
 
 # Parse command-line options.
-while getopts ":adlstu" opt; do
+while getopts ":adlst:u" opt; do
   case $opt in
     a)
       # Aggregate both up and downstream -> total.
