@@ -153,6 +153,7 @@ if [ "$vnstab_is_installed" = true ] && [ "$enough_data" = true ]; then
       printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_human"
       printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_human"
     fi
+
   elif [ "$info_type" = "downstream" ]; then
   
     # Bytes or human readable output?
@@ -160,6 +161,7 @@ if [ "$vnstab_is_installed" = true ] && [ "$enough_data" = true ]; then
       echo $rx_avg_last_hour_human
     else
       echo $rx_avg_last_hour_bits
+    fi
 
   elif [ "$info_type" = "upstream" ]; then
   
@@ -168,6 +170,8 @@ if [ "$vnstab_is_installed" = true ] && [ "$enough_data" = true ]; then
       echo $tx_avg_last_hour_human
     else
       echo $tx_avg_last_hour_bits
+    fi
+
   elif [ "$info_type" = "total" ]; then
   
     # Bytes or human readable output?
@@ -175,6 +179,8 @@ if [ "$vnstab_is_installed" = true ] && [ "$enough_data" = true ]; then
       echo $traffic_total_avg_last_hour_human
     else
       echo $traffic_total_avg_last_hour_bits
+    fi
+    
   else
     echo "Invalid info_type: $info_type"
     exit 1
