@@ -27,20 +27,29 @@ format_speed() {
 
 # Default values.
 info_type="short"
+output_type="default"
 tab_space_default=28
 tab_space=$tab_space_default
 duration_seconds=3600  # Assuming 1 hour duration for average calculation.
 
 # Parse command-line options.
-while getopts ":adlst:u" opt; do
+while getopts ":abdhlst:u" opt; do
   case $opt in
     a)
       # Aggregate both up and downstream -> total.
       info_type="total"
       ;;
+    b)
+      # Output in bytes.
+      output_type="bytes"
+      ;;
     d)
       # DownsStream.
       info_type="downstream"
+      ;;
+    h)
+      # Output in human readable format.
+      output_type="human"
       ;;
     l)
       info_type="long"
@@ -119,20 +128,53 @@ if [ "$vnstab_is_installed" = true ] && [ "$enough_data" = true ]; then
 
   # Print the results based on info_type.
   if [ "$info_type" = "short" ]; then
+    
     # Print with tab space.
-    printf "%-${tab_space}s: %s\n" "Downstream" "$rx_avg_last_hour_human"
-    printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_human"
-    printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_human"
+
+    # Bytes or human readable output?
+    if [ "$output_type" = "bytes" ]; then
+      printf "%-${tab_space}s: %s\n" "Downstream" "$rx_avg_last_hour_bits"
+      printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_bits"
+      printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_bits"
+    else
+      printf "%-${tab_space}s: %s\n" "Downstream" "$rx_avg_last_hour_human"
+      printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_human"
+      printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_human"
+    fi
   elif [ "$info_type" = "long" ]; then
-    printf "%-${tab_space}s: %s\n" "Downstream" "$rx_avg_last_hour_human"
-    printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_human"
-    printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_human"
+
+    # Bytes or human readable output?
+    if [ "$output_type" = "bytes" ]; then
+      printf "%-${tab_space}s: %s\n" "Downstream" "$rx_avg_last_hour_bits"
+      printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_bits"
+      printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_bits"
+    else
+      printf "%-${tab_space}s: %s\n" "Downstream" "$rx_avg_last_hour_human"
+      printf "%-${tab_space}s: %s\n" "Upstream" "$tx_avg_last_hour_human"
+      printf "%-${tab_space}s: %s\n" "Total" "$traffic_total_avg_last_hour_human"
+    fi
   elif [ "$info_type" = "downstream" ]; then
-    echo $rx_avg_last_hour_bits
+  
+    # Bytes or human readable output?
+    if [ "$output_type" = "human" ]; then
+      echo $rx_avg_last_hour_human
+    else
+      echo $rx_avg_last_hour_bits
+
   elif [ "$info_type" = "upstream" ]; then
-    echo $tx_avg_last_hour_bits
+  
+    # Bytes or human readable output?
+    if [ "$output_type" = "human" ]; then
+      echo $tx_avg_last_hour_human
+    else
+      echo $tx_avg_last_hour_bits
   elif [ "$info_type" = "total" ]; then
-    echo $traffic_total_avg_last_hour_bits
+  
+    # Bytes or human readable output?
+    if [ "$output_type" = "human" ]; then
+      echo $traffic_total_avg_last_hour_human
+    else
+      echo $traffic_total_avg_last_hour_bits
   else
     echo "Invalid info_type: $info_type"
     exit 1

@@ -25,6 +25,18 @@ get_downstream_info() {
 get_total_network_info() {
     sh "$SCRIPT_DIR/network_info.sh" -a
 }
+# Function to display network upstream info.
+get_upstream_info_human() {
+    sh "$SCRIPT_DIR/network_info.sh" -u -h
+}
+# Function to display network downstream info.
+get_downstream_info_human() {
+    sh "$SCRIPT_DIR/network_info.sh" -d -h
+}
+# Function to display total network info.
+get_total_network_info_human() {
+    sh "$SCRIPT_DIR/network_info.sh" -a -h
+}
 
 # Function to convert seconds to a human-readable format
 convert_seconds_to_human_readable() {
@@ -102,6 +114,9 @@ fi
 upstream_avg_bits=$(get_upstream_info)
 downstream_avg_bits=$(get_downstream_info)
 total_network_avg_bits=$(get_total_network_info)
+upstream_avg_human=$(get_upstream_info_human)
+downstream_avg_human=$(get_downstream_info_human)
+total_network_avg_human=$(get_total_network_info_human)
 
 # Processes.
 amount_processes=$(ps aux | wc -l)
@@ -215,8 +230,11 @@ json_data=$(cat <<EOF
   },
   "network": {
     "upstream_avg_bits": "$upstream_avg_bits",
+    "upstream_avg_human": "$upstream_avg_human",
     "downstream_avg_bits": "$downstream_avg_bits",
-    "total_network_avg_bits": "$total_network_avg_bits"
+    "downstream_avg_human": "$downstream_avg_human",
+    "total_network_avg_bits": "$total_network_avg_bits",
+    "total_network_avg_human": "$total_network_avg_human"
   },
   "processes": {
     "amount_processes": "$amount_processes"
