@@ -119,7 +119,7 @@ if [ -n "$vnstat_command" ]; then
 else
     vnstab_is_installed=false
     enough_data=false
-    error_info_msg="vnstab is not installed"
+    error_info_msg="vnstat is not installed (to install: apt install vnstat)"
 fi
 
 
