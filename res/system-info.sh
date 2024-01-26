@@ -117,6 +117,16 @@ total_network_avg_bits=$(get_total_network_info)
 upstream_avg_human=$(get_upstream_info_human)
 downstream_avg_human=$(get_downstream_info_human)
 total_network_avg_human=$(get_total_network_info_human)
+if [ "$upstream_avg_bits" = "vnstab is not installed" ]; then
+  is_vnstab_installed=false
+  has_vnstab_enough_data=false
+elif [ "$upstream_avg_bits" = "There is not enough data yet" ]; then
+  is_vnstab_installed=true
+  has_vnstab_enough_data=false
+else
+  is_vnstab_installed=true
+  has_vnstab_enough_data=true
+fi
 
 # Processes.
 amount_processes=$(ps aux | wc -l)
@@ -229,6 +239,8 @@ json_data=$(cat <<EOF
     "swap_status": "$swap_info_output"
   },
   "network": {
+    "is_vnstab_installed": "$is_vnstab_installed",
+    "has_vnstab_enough_data": "$has_vnstab_enough_data",
     "upstream_avg_bits": "$upstream_avg_bits",
     "upstream_avg_human": "$upstream_avg_human",
     "downstream_avg_bits": "$downstream_avg_bits",
