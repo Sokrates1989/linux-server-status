@@ -199,6 +199,12 @@ else
 
         if [ "$available_updates" = true ]; then
             echo "Remote Repo updateable! $behind_count commits behind. Pull is recommended."
+
+            # Print user info how to update repo.
+            echo "\nTo Update repo do this:"
+            echo "cd $MAIN_DIR"
+            echo "git pull\n"
+            
         fi
     fi         
 fi

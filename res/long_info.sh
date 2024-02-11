@@ -122,6 +122,12 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
     behind_count=$(git rev-list HEAD..origin/main --count)
     if [ "$behind_count" -gt 0 ]; then
         echo "The local repository is $behind_count commits behind the remote repository. Pull is recommended."
+        
+        # Print user info how to update repo.
+        echo "\nTo Update repo do this:"
+        echo "cd $MAIN_DIR"
+        echo "git pull\n"
+        
     else
         echo "No changes in the remote repository."
     fi
