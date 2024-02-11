@@ -35,7 +35,7 @@ convert_seconds_to_human_readable() {
     if [ "$days" -gt 0 ]; then
         result="${days}d "
     fi
-    result+="${hours}h ${minutes}m ${seconds}s"
+    result="${result}${hours}h ${minutes}m ${seconds}s"
 
     # Return result.
     echo "$result"
