@@ -118,7 +118,7 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
     fi
 
     # Check for upstream changes.
-    git fetch
+    git fetch -q
     behind_count=$(git rev-list HEAD..origin/main --count)
     if [ "$behind_count" -gt 0 ]; then
         echo "The local repository is $behind_count commits behind the remote repository. Pull is recommended."
