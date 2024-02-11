@@ -19,16 +19,27 @@ display_network_info() {
     sh "$SCRIPT_DIR/network_info.sh" -l  # To display long info.
 }
 
-# Function to convert seconds to a human-readable format
+# Function to convert seconds to a human-readable format.
 convert_seconds_to_human_readable() {
+    # Parameters of this function.
     local seconds="$1"
-    local hours=$((seconds / 3600))
+
+    # Conversion.
+    local days=$((seconds / 86400))
+    local hours=$(( (seconds % 86400) / 3600 ))
     local minutes=$(( (seconds % 3600) / 60 ))
     local seconds=$((seconds % 60))
 
-    echo "${hours}h ${minutes}m ${seconds}s"
-}
+    # Concatenate result.
+    local result=""
+    if [ "$days" -gt 0 ]; then
+        result="${days}d "
+    fi
+    result+="${hours}h ${minutes}m ${seconds}s"
 
+    # Return result.
+    echo "$result"
+}
 
 # Output system info.
 echo "\nSystem Information:"
