@@ -16,12 +16,12 @@ MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Function to display cpu usage.
 display_cpu_info() {
-    sh "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
+    "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
 }
 
 # Function to display network usage.
 display_network_info() {
-    sh "$SCRIPT_DIR/network_info.sh" -s -t $output_tab_space # To display short info with tab space
+    "$SCRIPT_DIR/network_info.sh" -s -t $output_tab_space # To display short info with tab space
 }
 
 # Function to convert seconds to a human-readable format.
@@ -125,7 +125,7 @@ sudo apt-get update -qq
 updates=$(apt list --upgradable 2>/dev/null)
 if [ "${#updates}" -gt 10 ]; # Checks length of updates var, because also a fully updated system returns the string "Listing..."
 then
-    printf "%-${output_tab_space}s: %s\n" "Updates Available" "Yes (use -u option to view all available updates -> sh path/to/get_info.sh -u )"
+    printf "%-${output_tab_space}s: %s\n" "Updates Available" "Yes (use -u option to view all available updates -> path/to/get_info.-u )"
 else
     printf "%-${output_tab_space}s: %s\n" "Updates Available" "No"
 fi
@@ -216,7 +216,7 @@ cd "$current_dir"
 
 # Spacer.
 echo "\n"
-echo "To view full system report use -f option -> sh path/to/get_info.sh -f  "
-echo "To view all available options use --help -> sh path/to/get_info.sh --help  "
+echo "To view full system report use -f option -> path/to/get_info.-f  "
+echo "To view all available options use --help -> path/to/get_info.--help  "
 echo ""
 
