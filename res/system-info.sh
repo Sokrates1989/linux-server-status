@@ -10,32 +10,32 @@ DESTINATION_DIR="$MAIN_DIR/server-states"
 
 # Function to display cpu info.
 get_cpu_info() {
-    "$SCRIPT_DIR/cpu_info.sh" -p 
+    sh "$SCRIPT_DIR/cpu_info.sh" -p 
 }
 
 # Function to display network upstream info.
 get_upstream_info() {
-    "$SCRIPT_DIR/network_info.sh" -u
+    sh "$SCRIPT_DIR/network_info.sh" -u
 }
 # Function to display network downstream info.
 get_downstream_info() {
-    "$SCRIPT_DIR/network_info.sh" -d
+    sh "$SCRIPT_DIR/network_info.sh" -d
 }
 # Function to display total network info.
 get_total_network_info() {
-    "$SCRIPT_DIR/network_info.sh" -a
+    sh "$SCRIPT_DIR/network_info.sh" -a
 }
 # Function to display network upstream info.
 get_upstream_info_human() {
-    "$SCRIPT_DIR/network_info.sh" -u -h
+    sh "$SCRIPT_DIR/network_info.sh" -u -h
 }
 # Function to display network downstream info.
 get_downstream_info_human() {
-    "$SCRIPT_DIR/network_info.sh" -d -h
+    sh "$SCRIPT_DIR/network_info.sh" -d -h
 }
 # Function to display total network info.
 get_total_network_info_human() {
-    "$SCRIPT_DIR/network_info.sh" -a -h
+    sh "$SCRIPT_DIR/network_info.sh" -a -h
 }
 
 # Function to convert seconds to a human-readable format.

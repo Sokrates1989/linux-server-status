@@ -6,17 +6,17 @@ MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # Function to display available system updates.
 display_update_info() {
-    "$SCRIPT_DIR/update_info.sh"
+    sh "$SCRIPT_DIR/update_info.sh"
 }
 
 # Function to display cpu usage.
 display_cpu_info() {
-    "$SCRIPT_DIR/cpu_info.sh" -l  # To display long info.
+    sh "$SCRIPT_DIR/cpu_info.sh" -l  # To display long info.
 }
 
 # Function to display network usage.
 display_network_info() {
-    "$SCRIPT_DIR/network_info.sh" -l  # To display long info.
+    sh "$SCRIPT_DIR/network_info.sh" -l  # To display long info.
 }
 
 # Function to convert seconds to a human-readable format.
@@ -114,7 +114,7 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
 
     # Check local changes.
     if [ -n "$(git status --porcelain)" ]; then
-        echo "There are local changes. Please commit or stayour changes before pulling."
+        echo "There are local changes. Please commit or stash your changes before pulling."
     fi
 
     # Check for upstream changes.

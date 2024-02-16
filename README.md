@@ -3,7 +3,7 @@ Quick output of server status. Similar to info upon login via ssh.
 
 # Usage.
 ```bash
-path/to/get_info.sh
+sh path/to/get_info.sh
 ```
 
 # Output Files for messaging.
