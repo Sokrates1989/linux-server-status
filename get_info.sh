@@ -15,16 +15,16 @@ display_full_info() {
 
 # Function to display available system updates.
 display_update_info() {
-    echo ""
+    echo -e ""
     bash "$SCRIPT_DIR/res/update_info.sh"
-    echo ""
+    echo -e ""
 }
 
 # Function to display cpu info.
 display_cpu_info() {
-    echo ""
+    echo -e ""
     bash "$SCRIPT_DIR/res/cpu_info.sh" -l  # To display long info.
-    echo ""
+    echo -e ""
 }
 
 # Function to display and save system information as json.
@@ -42,17 +42,17 @@ system_info_json() {
 
 # Function to display help information.
 display_help() {
-    echo "Usage: $0 [OPTIONS]"
-    echo "Options:"
-    echo "  -f, --full     Display full system information"
-    echo "  -l             Alias for --full"
-    echo "  -u             Display available system updates"
-    echo "  -s             Display short system information"
-    echo "  --cpu          Display CPU information"
-    echo "  --help         Display this help message"
-    echo "  --json         Save and display info in json format"
-    echo "  --output-file  Where to save the system info output (only in combination with --json)"
-    echo "  -o             Alias for --output-file"
+    echo -e "Usage: $0 [OPTIONS]"
+    echo -e "Options:"
+    echo -e "  -f, --full     Display full system information"
+    echo -e "  -l             Alias for --full"
+    echo -e "  -u             Display available system updates"
+    echo -e "  -s             Display short system information"
+    echo -e "  --cpu          Display CPU information"
+    echo -e "  --help         Display this help message"
+    echo -e "  --json         Save and display info in json format"
+    echo -e "  --output-file  Where to save the system info output (only in combination with --json)"
+    echo -e "  -o             Alias for --output-file"
 }
 
 
@@ -103,7 +103,7 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         *)
-            echo "Invalid option: $1" >&2
+            echo -e "Invalid option: $1" >&2
             exit 1
             ;;
     esac
@@ -115,7 +115,7 @@ if [ "$use_file_output" = "True" ]; then
         system_info_json
     else
         # If no option is specified or an invalid option is provided, display short info.
-        echo "invalid file_output_type: $file_output_type"
+        echo -e "invalid file_output_type: $file_output_type"
     fi
 else
     # If no option is specified or an invalid option is provided, display short info.

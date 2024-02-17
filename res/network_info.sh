@@ -17,11 +17,11 @@ convert_to_bytes() {
 format_speed() {
     local speed=$1
     if [ $(echo "$speed >= 1000000" | bc -l) -eq 1 ]; then
-        echo "$(echo "scale=2; $speed / 1000000" | bc) Mbit/s"
+        echo -e "$(echo "scale=2; $speed / 1000000" | bc) Mbit/s"
     elif [ $(echo "$speed >= 1000" | bc -l) -eq 1 ]; then
-        echo "$(echo "scale=2; $speed / 1000" | bc) kbit/s"
+        echo -e "$(echo "scale=2; $speed / 1000" | bc) kbit/s"
     else
-        echo "$speed bit/s"
+        echo -e "$speed bit/s"
     fi
 }
 
@@ -66,7 +66,7 @@ while getopts ":abdhlst:u" opt; do
       info_type="upstream"
       ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
+      echo -e "Invalid option: -$OPTARG" >&2
       exit 1
       ;;
   esac
@@ -75,7 +75,7 @@ done
 # Validate tab_space only when using short option.
 if [ "$info_type" = "short" ]; then
   if [ "$tab_space" -lt 1 ]; then
-    echo "Error: Tab space must be a positive integer." >&2
+    echo -e "Error: Tab space must be a positive integer." >&2
     exit 1
   fi
 fi
@@ -158,31 +158,31 @@ if [ "$vnstab_is_installed" = true ] && [ "$enough_data" = true ]; then
   
     # Bytes or human readable output?
     if [ "$output_type" = "human" ]; then
-      echo $rx_avg_last_hour_human
+      echo -e $rx_avg_last_hour_human
     else
-      echo $rx_avg_last_hour_bits
+      echo -e $rx_avg_last_hour_bits
     fi
 
   elif [ "$info_type" = "upstream" ]; then
   
     # Bytes or human readable output?
     if [ "$output_type" = "human" ]; then
-      echo $tx_avg_last_hour_human
+      echo -e $tx_avg_last_hour_human
     else
-      echo $tx_avg_last_hour_bits
+      echo -e $tx_avg_last_hour_bits
     fi
 
   elif [ "$info_type" = "total" ]; then
   
     # Bytes or human readable output?
     if [ "$output_type" = "human" ]; then
-      echo $traffic_total_avg_last_hour_human
+      echo -e $traffic_total_avg_last_hour_human
     else
-      echo $traffic_total_avg_last_hour_bits
+      echo -e $traffic_total_avg_last_hour_bits
     fi
     
   else
-    echo "Invalid info_type: $info_type"
+    echo -e "Invalid info_type: $info_type"
     exit 1
   fi
 
@@ -194,15 +194,15 @@ else
     printf "%-${tab_space}s: %s\n" "Upstream" "$error_info_msg"
     printf "%-${tab_space}s: %s\n" "Total" "$error_info_msg"
   elif [ "$info_type" = "long" ]; then
-    echo $error_info_msg
+    echo -e $error_info_msg
   elif [ "$info_type" = "downstream" ]; then
-    echo $error_info_msg
+    echo -e $error_info_msg
   elif [ "$info_type" = "upstream" ]; then
-    echo $error_info_msg
+    echo -e $error_info_msg
   elif [ "$info_type" = "total" ]; then
-    echo $error_info_msg
+    echo -e $error_info_msg
   else
-    echo "Invalid info_type: $info_type"
+    echo -e "Invalid info_type: $info_type"
     exit 1
   fi
 fi

@@ -23,7 +23,7 @@ while getopts ":lspt:" opt; do
       tab_space=$OPTARG
       ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
+      echo -e "Invalid option: -$OPTARG" >&2
       exit 1
       ;;
   esac
@@ -32,7 +32,7 @@ done
 # Validate tab_space only when using short option.
 if [ "$info_type" = "short" ]; then
   if [ "$tab_space" -lt 1 ]; then
-    echo "Error: Tab space must be a positive integer." >&2
+    echo -e "Error: Tab space must be a positive integer." >&2
     exit 1
   fi
 fi
@@ -60,13 +60,13 @@ if [ "$info_type" = "short" ]; then
   # Print with tab space.
   printf "%-${tab_space}s: %s\n" "CPU Usage" "$load_percent_15min% (last 15 minutes)"
 elif [ "$info_type" = "long" ]; then
-  echo "Number of CPU cores: $cpu_cores"
-  echo "1-minute load percentage: $load_percent_1min%"
-  echo "5-minute load percentage: $load_percent_5min%"
-  echo "15-minute load percentage: $load_percent_15min%"
+  echo -e "Number of CPU cores: $cpu_cores"
+  echo -e "1-minute load percentage: $load_percent_1min%"
+  echo -e "5-minute load percentage: $load_percent_5min%"
+  echo -e "15-minute load percentage: $load_percent_15min%"
 elif [ "$info_type" = "15minNumberOnly" ]; then
-  echo $load_percent_15min
+  echo -e $load_percent_15min
 else
-  echo "Invalid info_type: $info_type"
+  echo -e "Invalid info_type: $info_type"
   exit 1
 fi

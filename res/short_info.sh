@@ -43,13 +43,13 @@ convert_seconds_to_human_readable() {
     result="${result}${hours}h ${minutes}m ${seconds}s"
 
     # Return result.
-    echo "$result"
+    echo -e "$result"
 }
 
 
 
 # System name information.
-echo "\nSystem information\n"
+echo -e "\nSystem information\n"
 hostname=$(hostname)
 dist_name=$(lsb_release -ds)
 kernel_ver=$(uname -sr)
@@ -61,7 +61,7 @@ printf "%-${output_tab_space}s: %s\n" "Hostname" "$hostname"
 printf "%-${output_tab_space}s: %s\n" "System name" "$sys_info"
 
 # Spacer.
-echo ""
+echo -e ""
 
 # CPU Usage.
 display_cpu_info
@@ -84,20 +84,20 @@ printf "%-${output_tab_space}s: %s\n" "Memory Usage" "$memory_usage_percentage% 
 swap_info=$(swapon --show)
 if [ -n "$swap_info" ]; then
     printf "%-${output_tab_space}s: %s\n" "Swap Usage" "Swap is in use"
-    echo "$swap_info"
+    echo -e "$swap_info"
 else
     printf "%-${output_tab_space}s: %s\n" "Swap Usage" "No active swap"
 fi
 
 # Spacer.
-echo ""
+echo -e ""
 
 # Network Usage.
 display_network_info
 
 
 # Spacer.
-echo ""
+echo -e ""
 
 # Processes.
 amount_processes=$(ps aux | wc -l)
@@ -109,14 +109,14 @@ printf "%-${output_tab_space}s: %s\n" "Users logged in" "$logged_in_users"
 
 
 # Spacer.
-echo ""
+echo -e ""
 
 # Ipv4 Adresses.
 ip -4 a | awk -v tab_space="$networking_tab_space" '/inet/ {printf "%-"tab_space"s: %s\n", "IPv4 of "$NF, $2}'
 
 
 # Spacer.
-echo ""
+echo -e ""
 
 
 # Update APT repository quietly.
@@ -147,7 +147,7 @@ fi
 
 
 # Spacer.
-echo "\n"
+echo -e "\n"
 
 # Save the current directory to be able to revert back again to it later.
 current_dir=$(pwd)
@@ -185,25 +185,25 @@ fi
 
 
 if [ "$is_healthy" = true ]; then
-    echo "This tool (linux server status) is healthy and up to date"
+    echo -e "This tool (linux server status) is healthy and up to date"
 else
     # print detailed information.
-    echo "This tool (linux server status) is NOT healthy:"
+    echo -e "This tool (linux server status) is NOT healthy:"
     
     if [ "$repo_issue" = true ]; then
-        echo "Remote repository $repo_url is not accessible"
+        echo -e "Remote repository $repo_url is not accessible"
     else
         if [ "$local_changes" = true ]; then
-            echo "Local repo has uncommitted changes"
+            echo -e "Local repo has uncommitted changes"
         fi 
 
         if [ "$available_updates" = true ]; then
-            echo "Remote Repo updateable! $behind_count commits behind. Pull is recommended."
+            echo -e "Remote Repo updateable! $behind_count commits behind. Pull is recommended."
 
             # Print user info how to update repo.
-            echo "\nTo Update repo do this:"
-            echo "cd $MAIN_DIR"
-            echo "git pull\n"
+            echo -e "\nTo Update repo do this:"
+            echo -e "cd $MAIN_DIR"
+            echo -e "git pull\n"
             
         fi
     fi         
@@ -215,8 +215,8 @@ cd "$current_dir"
 
 
 # Spacer.
-echo "\n"
-echo "To view full system report use -f option -> bash path/to/get_info.bash -f  "
-echo "To view all available options use --help -> bash path/to/get_info.bash --help  "
-echo ""
+echo -e "\n"
+echo -e "To view full system report use -f option -> bash path/to/get_info.bash -f  "
+echo -e "To view all available options use --help -> bash path/to/get_info.bash --help  "
+echo -e ""
 

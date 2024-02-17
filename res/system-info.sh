@@ -57,7 +57,7 @@ convert_seconds_to_human_readable() {
     result="${result}${hours}h ${minutes}m ${seconds}s"
 
     # Return result.
-    echo "$result"
+    echo -e "$result"
 }
 
 # Default values.
@@ -77,7 +77,7 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         *)
-            echo "Invalid option: $1" >&2
+            echo -e "Invalid option: $1" >&2
             exit 1
             ;;
     esac
@@ -287,8 +287,8 @@ EOF
 )
 
 # Write JSON string to file
-echo "$json_data" > "$output_file"
-echo "$json_data"
+echo -e "$json_data" > "$output_file"
+echo -e "$json_data"
 
-echo "System information has been saved to $output_file with timestamp $timestamp"
+echo -e "System information has been saved to $output_file with timestamp $timestamp"
 

@@ -38,69 +38,69 @@ convert_seconds_to_human_readable() {
     result="${result}${hours}h ${minutes}m ${seconds}s"
 
     # Return result.
-    echo "$result"
+    echo -e "$result"
 }
 
 # Output system info.
-echo "\nSystem Information:"
+echo -e "\nSystem Information:"
 hostname=$(hostname)
-echo "Hostname: $hostname" 
+echo -e "Hostname: $hostname" 
 uname -a
 
-echo "\n\nCpu Usage:"
+echo -e "\n\nCpu Usage:"
 display_cpu_info
 
-echo "\n\nDisk Usage:"
+echo -e "\n\nDisk Usage:"
 df -h /
 
-echo "\n\nMemory Usage:"
+echo -e "\n\nMemory Usage:"
 free -h
 # Calculate percentage of memory usage.
 total_memory=$(free -m | awk '/Mem:/ {print $2}')
 used_memory=$(free -m | awk '/Mem:/ {print $3}')
 memory_usage_percentage=$(echo "scale=2; $used_memory / $total_memory * 100" | bc)
-echo "Use%: $memory_usage_percentage%" 
+echo -e "Use%: $memory_usage_percentage%" 
 
-echo "\n\nSwap Usage:"
+echo -e "\n\nSwap Usage:"
 swapon --show
 
-echo "\n\nNetwork:"
+echo -e "\n\nNetwork:"
 display_network_info
 
-echo "\n\nProcesses:"
+echo -e "\n\nProcesses:"
 ps aux | wc -l
 
-echo "\n\nLogged-in Users:"
+echo -e "\n\nLogged-in Users:"
 who
 
-echo "\n\nLast Login Information:"
+echo -e "\n\nLast Login Information:"
 last
 
-echo "\n\nNetwork Information:"
+echo -e "\n\nNetwork Information:"
 ip a
 
 # Update info.
-echo "\n\n"
+echo -e "\n\n"
 display_update_info
 
 
 
 # Restart required?
-echo "\n\n"
+echo -e "\n\n"
 timestamp=$(date +%s)
 restart_required_timestamp=""
 if [ -f /var/run/reboot-required ]; then
     restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
     time_elapsed=$((timestamp - restart_required_timestamp))
     time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
-    echo "System restart required since $time_elapsed_human_readable"
+    echo -e "System restart required since $time_elapsed_human_readable"
 else
-    echo "No restart required"
+    echo -e "No restart required"
 fi
 
 
 # Is the repo of this project itself up to date?
-echo "\n\n"
+echo -e "\n\n"
 
 # Save the current directory to be able to revert back again to it later.
 current_dir=$(pwd)
@@ -110,29 +110,29 @@ cd $MAIN_DIR
 # Check remote connection.
 repo_url=https://github.com/Sokrates1989/linux-server-status.git
 if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
-    echo "Remote repository $repo_url is accessible."
+    echo -e "Remote repository $repo_url is accessible."
 
     # Check local changes.
     if [ -n "$(git status --porcelain)" ]; then
-        echo "There are local changes. Please commit or stabash your changes before pulling."
+        echo -e "There are local changes. Please commit or stabash your changes before pulling."
     fi
 
     # Check for upstream changes.
     git fetch -q
     behind_count=$(git rev-list HEAD..origin/main --count)
     if [ "$behind_count" -gt 0 ]; then
-        echo "The local repository is $behind_count commits behind the remote repository. Pull is recommended."
+        echo -e "The local repository is $behind_count commits behind the remote repository. Pull is recommended."
         
         # Print user info how to update repo.
-        echo "\nTo Update repo do this:"
-        echo "cd $MAIN_DIR"
-        echo "git pull\n"
+        echo -e "\nTo Update repo do this:"
+        echo -e "cd $MAIN_DIR"
+        echo -e "git pull\n"
         
     else
-        echo "No changes in the remote repository."
+        echo -e "No changes in the remote repository."
     fi
 else
-    echo "Error: Remote repository $repo_url is not accessible."
+    echo -e "Error: Remote repository $repo_url is not accessible."
 fi
 
 # Revert back to the original directory.
