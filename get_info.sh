@@ -5,25 +5,25 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Function to display short system information.
 display_short_info() {
-    sh "$SCRIPT_DIR/res/short_info.sh"
+    bash "$SCRIPT_DIR/res/short_info.sh"
 }
 
 # Function to display full system information.
 display_full_info() {
-    sh "$SCRIPT_DIR/res/long_info.sh"
+    bash "$SCRIPT_DIR/res/long_info.sh"
 }
 
 # Function to display available system updates.
 display_update_info() {
     echo ""
-    sh "$SCRIPT_DIR/res/update_info.sh"
+    bash "$SCRIPT_DIR/res/update_info.sh"
     echo ""
 }
 
 # Function to display cpu info.
 display_cpu_info() {
     echo ""
-    sh "$SCRIPT_DIR/res/cpu_info.sh" -l  # To display long info.
+    bash "$SCRIPT_DIR/res/cpu_info.sh" -l  # To display long info.
     echo ""
 }
 
@@ -34,9 +34,9 @@ server_states_json_file="$server_states_dir/system_info.json"
 system_info_json() {
     # Check if CUSTOM_OUTPUT_FILE is still in its default value
     if [ "$CUSTOM_OUTPUT_FILE" = "NONE" ]; then
-        sh "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$server_states_json_file"
+        bash "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$server_states_json_file"
     else
-        sh "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$CUSTOM_OUTPUT_FILE"
+        bash "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$CUSTOM_OUTPUT_FILE"
     fi
 }
 
@@ -52,6 +52,7 @@ display_help() {
     echo "  --help         Display this help message"
     echo "  --json         Save and display info in json format"
     echo "  --output-file  Where to save the system info output (only in combination with --json)"
+    echo "  -o             Alias for --output-file"
 }
 
 
@@ -92,6 +93,11 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         --output-file)
+            shift
+            CUSTOM_OUTPUT_FILE="$1"
+            shift
+            ;;
+        -o)
             shift
             CUSTOM_OUTPUT_FILE="$1"
             shift
