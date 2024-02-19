@@ -100,6 +100,12 @@ echo -e ""
 # Network Usage.
 display_network_info
 
+# Spacer.
+echo -e ""
+
+# Gluster info.
+display_gluster_info
+
 
 # Spacer.
 echo -e ""
@@ -224,4 +230,5 @@ echo -e "\n"
 echo -e "To view full system report use -f option -> bash path/to/get_info.sh -f  "
 echo -e "To view all available options use --help -> bash path/to/get_info.sh --help  "
 echo -e ""
+
 

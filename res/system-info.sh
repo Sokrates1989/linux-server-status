@@ -37,10 +37,6 @@ get_downstream_info_human() {
 get_total_network_info_human() {
     bash "$SCRIPT_DIR/network_info.sh" -a -h
 }
-# Function to get processable gluster info.
-get_gluster_info_processable() {
-    bash "$SCRIPT_DIR/gluster_info.sh" -p
-}
 
 # Function to convert seconds to a human-readable format.
 convert_seconds_to_human_readable() {
@@ -62,6 +58,33 @@ convert_seconds_to_human_readable() {
 
     # Return result.
     echo -e "$result"
+}
+
+# Function to convert a bash array to json.
+array_to_json() {
+    
+    local array=("$@")
+    local array_length=${#array[@]}
+
+    # # Convert array to JSON using external tool (in case the manual approach causes issues).
+    # json=$(printf '%s\n' "${array[@]}" | jq -R -s -c 'split("\n")[:-1]')
+
+    # Start JSON array
+    json="["
+    for ((i=0; i<$array_length; i++)); do
+        # Add element to JSON array
+        json+="\"${array[i]}\""
+
+        # Add comma for all elements except the last one
+        if [ $i -lt $((array_length-1)) ]; then
+            json+=","
+        fi
+    done
+    # End JSON array
+    json+="]"
+
+    # Return the JSON
+    echo "$json"
 }
 
 # Default values.
@@ -145,7 +168,13 @@ else
 fi
 
 # Gluster Info as vars.
-eval "$(get_gluster_info_processable)"
+source "$SCRIPT_DIR/gluster_info.sh" -p
+gluster_peers_json=$(array_to_json "${gluster_peers[@]}")
+gluster_volumes_json=$(array_to_json "${gluster_volumes[@]}")
+all_unhealthy_bricks_json=$(array_to_json "${all_unhealthy_bricks[@]}")
+all_unhealthy_processes_json=$(array_to_json "${all_unhealthy_processes[@]}")
+all_errors_warnings_json=$(array_to_json "${all_errors_warnings[@]}")
+all_active_tasks_json=$(array_to_json "${all_active_tasks[@]}")
 
 # Processes.
 amount_processes=$(ps aux | wc -l)
@@ -268,7 +297,18 @@ json_data=$(cat <<EOF
     "total_network_avg_human": "$total_network_avg_human"
   },
   "gluster": {
-    "is_installed": "$is_gluster_installed"
+    "is_gluster_installed": "$is_gluster_installed",
+    "is_peer_state_valid": "$is_peer_state_valid",
+    "gluster_peers": $gluster_peers_json,
+    "number_of_peers": "$number_of_peers",
+    "number_of_healthy_peers": "$number_of_healthy_peers",
+    "gluster_volumes": $gluster_volumes_json,
+    "number_of_volumes": "$number_of_volumes",
+    "number_of_healthy_volumes": "$number_of_healthy_volumes",
+    "all_unhealthy_bricks": $all_unhealthy_bricks_json,
+    "all_unhealthy_processes": $all_unhealthy_processes_json,
+    "all_errors_warnings": $all_errors_warnings_json,
+    "all_active_tasks": $all_active_tasks_json
   },
   "processes": {
     "amount_processes": "$amount_processes"
@@ -301,4 +341,5 @@ echo -e "$json_data" > "$output_file"
 echo -e "$json_data"
 
 echo -e "System information has been saved to $output_file with timestamp $timestamp"
+
 

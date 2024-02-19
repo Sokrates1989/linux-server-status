@@ -85,6 +85,7 @@ echo -e "\n\nNetwork Information:"
 ip a
 
 # Gluster info.
+echo -e "\n\n"
 display_gluster_info
 
 # Update info.
@@ -145,3 +146,4 @@ fi
 
 # Revert back to the original directory.
 cd "$current_dir"
+
