@@ -41,9 +41,9 @@ server_states_json_file="$server_states_dir/system_info.json"
 system_info_json() {
     # Check if CUSTOM_OUTPUT_FILE is still in its default value
     if [ "$CUSTOM_OUTPUT_FILE" = "NONE" ]; then
-        bash "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$server_states_json_file"
+        bash "$SCRIPT_DIR/res/system_info.sh" --json --output-file "$server_states_json_file"
     else
-        bash "$SCRIPT_DIR/res/system-info.sh" --json --output-file "$CUSTOM_OUTPUT_FILE"
+        bash "$SCRIPT_DIR/res/system_info.sh" --json --output-file "$CUSTOM_OUTPUT_FILE"
     fi
 }
 
@@ -137,3 +137,4 @@ else
     # If no option is specified or an invalid option is provided, display short info.
     display_short_info
 fi
+
