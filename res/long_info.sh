@@ -19,6 +19,11 @@ display_network_info() {
     bash "$SCRIPT_DIR/network_info.sh" -l  # To display long info.
 }
 
+# Function to display long gluster info.
+display_gluster_info() {
+    bash "$SCRIPT_DIR/gluster_info.sh" -l  # To display long info.
+}
+
 # Function to convert seconds to a human-readable format.
 convert_seconds_to_human_readable() {
     # Parameters of this function.
@@ -78,6 +83,9 @@ last
 
 echo -e "\n\nNetwork Information:"
 ip a
+
+# Gluster info.
+display_gluster_info
 
 # Update info.
 echo -e "\n\n"

@@ -22,7 +22,7 @@ Also writes percentages of server usage into files so that they can be mapped in
 #### Default json output file
 Writes output to path/to/server-states/system_info.json
 ```bash
-bash /path/to/get_info.bash --json
+bash /path/to/get_info.sh --json
 ```
 
 #### Custom file
@@ -33,9 +33,9 @@ mkdir -p /custom/path
 touch /custom/path/file.json
 
 # Command option short.
-bash /path/to/get_info.bash --json -o /custom/path/file.json
+bash /path/to/get_info.sh --json -o /custom/path/file.json
 # Command option long.
-bash /path/to/get_info.bash --json --output-file /custom/path/file.json
+bash /path/to/get_info.sh --json --output-file /custom/path/file.json
 ```
 
 
@@ -49,7 +49,7 @@ crontab -e
 
 ```bash
 # Execute command every hour at :59 min .
-59 * * * * /bin/bash /path/to/get_info.bash --json --output-file /custom/path/file.json
+59 * * * * /bin/bash /path/to/get_info.sh --json --output-file /custom/path/file.json
 ```
 
 

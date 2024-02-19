@@ -24,6 +24,11 @@ display_network_info() {
     bash "$SCRIPT_DIR/network_info.sh" -s -t $output_tab_space # To display short info with tab space
 }
 
+# Function to display short gluster info.
+display_gluster_info() {
+    bash "$SCRIPT_DIR/gluster_info.sh" -s -t $output_tab_space # To display short info with tab space
+}
+
 # Function to convert seconds to a human-readable format.
 convert_seconds_to_human_readable() {
     # Parameters of this function.
@@ -125,7 +130,7 @@ sudo apt-get update -qq
 updates=$(apt list --upgradable 2>/dev/null)
 if [ "${#updates}" -gt 10 ]; # Checks length of updates var, because also a fully updated system returns the string "Listing..."
 then
-    printf "%-${output_tab_space}s: %s\n" "Updates Available" "Yes (use -u option to view all available updates -> bash path/to/get_info.bash -u )"
+    printf "%-${output_tab_space}s: %s\n" "Updates Available" "Yes (use -u option to view all available updates -> bash path/to/get_info.sh -u )"
 else
     printf "%-${output_tab_space}s: %s\n" "Updates Available" "No"
 fi
@@ -216,7 +221,7 @@ cd "$current_dir"
 
 # Spacer.
 echo -e "\n"
-echo -e "To view full system report use -f option -> bash path/to/get_info.bash -f  "
-echo -e "To view all available options use --help -> bash path/to/get_info.bash --help  "
+echo -e "To view full system report use -f option -> bash path/to/get_info.sh -f  "
+echo -e "To view all available options use --help -> bash path/to/get_info.sh --help  "
 echo -e ""
 

@@ -37,6 +37,10 @@ get_downstream_info_human() {
 get_total_network_info_human() {
     bash "$SCRIPT_DIR/network_info.sh" -a -h
 }
+# Function to get processable gluster info.
+get_gluster_info_processable() {
+    bash "$SCRIPT_DIR/gluster_info.sh" -p
+}
 
 # Function to convert seconds to a human-readable format.
 convert_seconds_to_human_readable() {
@@ -140,6 +144,9 @@ else
   has_vnstab_enough_data=true
 fi
 
+# Gluster Info as vars.
+eval "$(get_gluster_info_processable)"
+
 # Processes.
 amount_processes=$(ps aux | wc -l)
 
@@ -191,7 +198,7 @@ behind_count="unknown"
 
 # Check remote connection.
 if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
-    repo_accessible="True"
+    repo_accessible="true"
 
     # Check local changes.
     if [ -n "$(git status --porcelain)" ]; then
@@ -204,13 +211,13 @@ if git ls-remote --exit-code $repo_url >/dev/null 2>&1; then
     git fetch -q
     behind_count=$(git rev-list HEAD..origin/main --count)
     if [ "$behind_count" -gt 0 ]; then
-        up_to_date="False"
+        up_to_date="false"
     else
-        up_to_date="True"
+        up_to_date="true"
         behind_count=0
     fi
 else
-    repo_accessible="False"
+    repo_accessible="false"
 fi
 
 # Revert back to the original directory.
@@ -259,6 +266,9 @@ json_data=$(cat <<EOF
     "downstream_avg_human": "$downstream_avg_human",
     "total_network_avg_bits": "$total_network_avg_bits",
     "total_network_avg_human": "$total_network_avg_human"
+  },
+  "gluster": {
+    "is_installed": "$is_gluster_installed"
   },
   "processes": {
     "amount_processes": "$amount_processes"
