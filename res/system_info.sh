@@ -66,6 +66,7 @@ array_to_json() {
     local array=("$@")
     local array_length=${#array[@]}
     emptyArrayString="empty"
+    noActiveTasksString="There---are---no---active---volume---tasks---"
 
     # # Convert array to JSON using external tool (in case the manual approach causes issues).
     # json=$(printf '%s\n' "${array[@]}" | jq -R -s -c 'split("\n")[:-1]')
@@ -75,7 +76,7 @@ array_to_json() {
     for ((i=0; i<$array_length; i++)); do
 
         # Replace empty array string to display empty string.
-        if [ "${array[i]}" = "empty" ]; then
+        if [ "${array[i]}" = "$emptyArrayString" ] || [ "${array[i]}" = "$noActiveTasksString" ]; then
           json+="\"\""
         else
           # Add element to JSON array.
