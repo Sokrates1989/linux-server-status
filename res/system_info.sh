@@ -65,25 +65,33 @@ array_to_json() {
     
     local array=("$@")
     local array_length=${#array[@]}
+    emptyArrayString="empty"
 
     # # Convert array to JSON using external tool (in case the manual approach causes issues).
     # json=$(printf '%s\n' "${array[@]}" | jq -R -s -c 'split("\n")[:-1]')
 
-    # Start JSON array
+    # Start JSON array.
     json="["
     for ((i=0; i<$array_length; i++)); do
-        # Add element to JSON array
-        json+="\"${array[i]}\""
 
-        # Add comma for all elements except the last one
+        # Replace empty array string to display empty string.
+        if [ "${array[i]}" = "empty" ]; then
+          json+="\"\""
+        else
+          # Add element to JSON array.
+          json+="\"${array[i]}\""
+        fi
+
+
+        # Add comma for all elements except the last one.
         if [ $i -lt $((array_length-1)) ]; then
             json+=","
         fi
     done
-    # End JSON array
+    # End JSON array.
     json+="]"
 
-    # Return the JSON
+    # Return the JSON.
     echo "$json"
 }
 
@@ -341,5 +349,6 @@ echo -e "$json_data" > "$output_file"
 echo -e "$json_data"
 
 echo -e "System information has been saved to $output_file with timestamp $timestamp"
+
 
 
