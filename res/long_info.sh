@@ -69,9 +69,6 @@ echo -e "Use%: $memory_usage_percentage%"
 echo -e "\n\nSwap Usage:"
 swapon --show
 
-echo -e "\n\nNetwork:"
-display_network_info
-
 echo -e "\n\nProcesses:"
 ps aux | wc -l
 
@@ -81,8 +78,11 @@ who
 echo -e "\n\nLast Login Information:"
 last
 
-echo -e "\n\nNetwork Information:"
+echo -e "\n\nIp addresses:"
 ip a
+
+echo -e "\n\nNetwork:"
+display_network_info
 
 # Gluster info.
 echo -e "\n\n"

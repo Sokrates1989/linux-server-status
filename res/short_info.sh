@@ -94,18 +94,6 @@ else
     printf "%-${output_tab_space}s: %s\n" "Swap Usage" "No active swap"
 fi
 
-# Spacer.
-echo -e ""
-
-# Network Usage.
-display_network_info
-
-# Spacer.
-echo -e ""
-
-# Gluster info.
-display_gluster_info
-
 
 # Spacer.
 echo -e ""
@@ -125,6 +113,18 @@ echo -e ""
 # Ipv4 Adresses.
 ip -4 a | awk -v tab_space="$networking_tab_space" '/inet/ {printf "%-"tab_space"s: %s\n", "IPv4 of "$NF, $2}'
 
+
+# Spacer.
+echo -e ""
+
+# Network Usage.
+display_network_info
+
+# Spacer.
+echo -e ""
+
+# Gluster info.
+display_gluster_info
 
 # Spacer.
 echo -e ""

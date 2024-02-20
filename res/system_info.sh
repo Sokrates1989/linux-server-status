@@ -286,6 +286,12 @@ json_data=$(cat <<EOF
   "swap": {
     "swap_status": "$swap_info_output"
   },
+  "processes": {
+    "amount_processes": "$amount_processes"
+  },
+  "users": {
+    "logged_in_users": "$logged_in_users"
+  },
   "network": {
     "is_vnstab_installed": "$is_vnstab_installed",
     "has_vnstab_enough_data": "$has_vnstab_enough_data",
@@ -309,12 +315,6 @@ json_data=$(cat <<EOF
     "all_unhealthy_processes": $all_unhealthy_processes_json,
     "all_errors_warnings": $all_errors_warnings_json,
     "all_active_tasks": $all_active_tasks_json
-  },
-  "processes": {
-    "amount_processes": "$amount_processes"
-  },
-  "users": {
-    "logged_in_users": "$logged_in_users"
   },
   "updates": {
     "amount_of_available_updates": "$amount_of_available_updates",
