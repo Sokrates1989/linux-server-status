@@ -219,7 +219,7 @@ get_gluster_info() {
 
 
             # Check for unhealthy processes.
-            unhealthy_bricks=($(echo -e "$sanitized_multiline_process_states" | awk -v newArrayElementIndicator="$newArrayElementIndicator" -v wordSeperator="$wordSeperator" '$0 ~ /^Brick/ && $5 == "Y" {print $1wordSeperator $2 newArrayElementIndicator}'))
+            unhealthy_bricks=($(echo -e "$sanitized_multiline_process_states" | awk -v newArrayElementIndicator="$newArrayElementIndicator" -v wordSeperator="$wordSeperator" '$0 ~ /^Brick/ && $5 != "Y" {print $1wordSeperator $2 newArrayElementIndicator}'))
             # Remove spaces and last trailing ,,, .
             unhealthy_bricks_string=$(echo "${unhealthy_bricks[*]}" | tr -d '[:space:]' | sed 's/,\{3\}$//')
             # Multi empty array is just empty array -> replace empty string with emptyArrayString.
@@ -228,7 +228,7 @@ get_gluster_info() {
             fi
             all_unhealthy_bricks+=("$unhealthy_bricks_string")
             # Self-heal processes.
-            unhealthy_processes=($(echo -e "$sanitized_multiline_process_states" | awk -v newArrayElementIndicator="$newArrayElementIndicator" -v wordSeperator="$wordSeperator" '$0 ~ /^Self-heal/ && $7 == "Y" {print $1wordSeperator $2wordSeperator $3wordSeperator $4 newArrayElementIndicator}'))
+            unhealthy_processes=($(echo -e "$sanitized_multiline_process_states" | awk -v newArrayElementIndicator="$newArrayElementIndicator" -v wordSeperator="$wordSeperator" '$0 ~ /^Self-heal/ && $7 != "Y" {print $1wordSeperator $2wordSeperator $3wordSeperator $4 newArrayElementIndicator}'))
             unhealthy_processes_string=$(echo "${unhealthy_processes[*]}" | tr -d '[:space:]' | sed 's/,\{3\}$//')
             # Multi empty array is just empty array -> replace empty string with emptyArrayString.
             if [ "$unhealthy_processes_string" = "" ]; then
