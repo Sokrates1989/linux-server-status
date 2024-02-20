@@ -68,9 +68,6 @@ array_to_json() {
     emptyArrayString="empty"
     noActiveTasksString="There---are---no---active---volume---tasks---"
 
-    # # Convert array to JSON using external tool (in case the manual approach causes issues).
-    # json=$(printf '%s\n' "${array[@]}" | jq -R -s -c 'split("\n")[:-1]')
-
     # Start JSON array.
     json="["
     for ((i=0; i<$array_length; i++)); do
@@ -89,6 +86,64 @@ array_to_json() {
             json+=","
         fi
     done
+    # End JSON array.
+    json+="]"
+
+    # Return the JSON.
+    echo "$json"
+}
+
+
+# Function to convert a fake two dimensional bash array to json.
+two_dim_array_to_json() {
+
+    local array=("$@")
+    local array_length=${#array[@]}
+    emptyArrayString="empty"
+    spaceReplacement="---"
+    innerArraySeperator="|"
+    noActiveTasksString="There---are---no---active---volume---tasks---"
+
+    # Start JSON array.
+    json="["
+
+    for ((i=0; i<$array_length; i++)); do
+
+        # Inner Array.
+        json+="["
+
+        # Split array[i] by innerArraySeperator and loop through each individual string part.
+        innerArrayString=$(echo "${array[i]}" | sed "s/,,,/$innerArraySeperator/g")
+        IFS="$innerArraySeperator" read -ra inner_array <<< "$innerArrayString"
+        inner_array_length=${#inner_array[@]}
+        for ((j=0; j<$inner_array_length; j++)); do
+
+            # Replace empty array string to display an empty string.
+            if [ "${inner_array[j]}" = "$emptyArrayString" ] || [ "${inner_array[j]}" = "$noActiveTasksString" ]; then
+                json+="\"\""
+            else
+                # Add element to JSON array.
+                current_element="${inner_array[j]//$spaceReplacement/ }"
+                json+="\"$current_element\""
+            fi
+
+            # Add comma for all elements except the last one.
+            if [ $j -lt $((inner_array_length-1)) ]; then
+                json+=","
+            fi
+
+        done
+
+        # End Inner Array.
+        json+="]"
+
+        # Add comma for all elements except the last one.
+        if [ $i -lt $((array_length-1)) ]; then
+            json+=","
+        fi
+
+    done
+
     # End JSON array.
     json+="]"
 
@@ -180,10 +235,10 @@ fi
 source "$SCRIPT_DIR/gluster_info.sh" -p
 gluster_peers_json=$(array_to_json "${gluster_peers[@]}")
 gluster_volumes_json=$(array_to_json "${gluster_volumes[@]}")
-all_unhealthy_bricks_json=$(array_to_json "${all_unhealthy_bricks[@]}")
-all_unhealthy_processes_json=$(array_to_json "${all_unhealthy_processes[@]}")
-all_errors_warnings_json=$(array_to_json "${all_errors_warnings[@]}")
-all_active_tasks_json=$(array_to_json "${all_active_tasks[@]}")
+all_unhealthy_bricks_json=$(two_dim_array_to_json "${all_unhealthy_bricks[@]}")
+all_unhealthy_processes_json=$(two_dim_array_to_json "${all_unhealthy_processes[@]}")
+all_errors_warnings_json=$(two_dim_array_to_json "${all_errors_warnings[@]}")
+all_active_tasks_json=$(two_dim_array_to_json "${all_active_tasks[@]}")
 
 # Processes.
 amount_processes=$(ps aux | wc -l)
@@ -350,6 +405,7 @@ echo -e "$json_data" > "$output_file"
 echo -e "$json_data"
 
 echo -e "System information has been saved to $output_file with timestamp $timestamp"
+
 
 
 
