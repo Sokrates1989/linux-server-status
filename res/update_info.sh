@@ -1,3 +1,9 @@
+## Checks for updates and prints update info to user.
+
+# Get the directory of the script.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 # Update APT repository quietly.
 sudo apt-get update -qq
 
@@ -11,7 +17,7 @@ then
     
     # Tell user how to apply them.
     echo -e "\nTo update you can use this:"
-    echo -e "sudo apt-get -y update && sudo apt-get -y upgrade"
+    echo -e "sudo apt-get -y update && sudo apt-get -y upgrade && bash $MAIN_DIR/get_info.sh -u"
     
     echo -e "\nIf there are still updates remaining, try these:"
     echo -e "sudo apt-get --with-new-pkgs upgrade <list of packages kept back>"
