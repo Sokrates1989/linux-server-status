@@ -50,6 +50,9 @@ crontab -e
 ```bash
 # Execute command every hour at :59 min .
 59 * * * * /bin/bash /path/to/get_info.sh --json --output-file /custom/path/file.json
+
+# Second Example as used on prod servers.
+59 * * * * /bin/bash /gluster_storage/linux-server-status/get_info.sh --json --output-file /serverInfo/system_info.json
 ```
 
 
