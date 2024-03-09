@@ -341,7 +341,7 @@ if [ "$info_type" = "short" ]; then
         # Print number of volumes (and healthy volumes in brackets).
         printf "%-${output_tab_space}s: %s\n" "Volumes (healthy/total)" "$number_of_healthy_volumes/$number_of_volumes"
 
-        echo -e "use -g option to view full gluster information -> bash path/to/get_info.sh -g "
+        echo -e "use -g option to view full gluster information -> bash $MAIN_DIR/get_info.sh -g "
 
     else
         # Print Install state: is not installed.
