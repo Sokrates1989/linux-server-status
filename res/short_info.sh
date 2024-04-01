@@ -62,7 +62,7 @@ sys_info_from_vars="${dist_name} (${kernel_ver})"
 sys_info="$(lsb_release -ds) ($(uname -sr))"
 
 # Print system name information.
-printf "%-${output_tab_space}s: %s\n" "Hostname" "$hostname" 
+printf "%-${output_tab_space}s: %s\n" "Hostname" "$hostname (sudo hostnamectl set-hostname newhostname)" 
 printf "%-${output_tab_space}s: %s\n" "System name" "$sys_info"
 
 # Spacer.
