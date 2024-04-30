@@ -130,7 +130,8 @@ display_gluster_info
 echo -e ""
 
 
-# Update APT repository quietly.
+# Update APT repository.
+echo -e "Fetching available updates..."
 sudo apt-get update -qq
 # Available updates.
 updates=$(apt list --upgradable 2>/dev/null)
@@ -167,6 +168,7 @@ cd $MAIN_DIR
 
 
 # This tool's state.
+echo -e "Fetching state of linux-server-status (this tool) ..."
 repo_url=https://github.com/Sokrates1989/linux-server-status.git
 is_healthy=true
 repo_issue=false

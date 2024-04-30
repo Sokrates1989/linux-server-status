@@ -4,7 +4,8 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Update APT repository quietly.
+# Update APT repository.
+echo -e "Fetching available updates..."
 sudo apt-get update -qq
 
 # Check for available updates.

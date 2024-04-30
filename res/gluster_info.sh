@@ -319,6 +319,7 @@ get_gluster_info() {
 # Print the results based on info_type.
 if [ "$info_type" = "short" ]; then
     # Get gluster info and evaluate the result.
+    echo -e "Fetching gluster information..."
     eval "$(get_gluster_info)"
     if [ $is_gluster_installed = "true" ]; then
 
@@ -349,6 +350,7 @@ if [ "$info_type" = "short" ]; then
     fi
 elif [ "$info_type" = "long" ]; then
   # Get gluster info and evaluate the result.
+    echo -e "Fetching gluster information..."
     eval "$(get_gluster_info)"
     echo -e "Full GlusterFS information\n"
     if [ $is_gluster_installed = "true" ]; then
