@@ -9,10 +9,36 @@ sudo apt update
 sudo apt install bash
 ```
 
-# Usage
+
+# First Setup
+
+### Quick 
 ```bash
-bash /path/to/get_info.sh
+mkdir -p /linux-server-status
+cd /linux-server-status
+git clone https://github.com/Sokrates1989/linux-server-status.git .
 ```
+
+### Custom dir 
+```bash
+# Choose location on server (replace desired destintation with /desired/destination).
+mkdir -p /desired/destination/linux-server-status
+cd /desired/destination/linux-server-status
+git clone https://github.com/Sokrates1989/linux-server-status.git .
+```
+
+
+# Usage
+
+### Quick 
+```bash
+bash /linux-server-status/get_info.sh
+```
+### Custom dir 
+```bash
+bash /desired/destination/linux-server-status/get_info.sh
+```
+
 
 # Output Files for messaging.
 Also writes percentages of server usage into files so that they can be mapped into docker images. These files can be used to monitor the server state and send server state infos via Telegram, email or other messaging tools.
