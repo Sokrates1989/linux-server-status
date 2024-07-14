@@ -88,7 +88,9 @@ printf "%-${output_tab_space}s: %s\n" "Memory Usage" "$memory_usage_percentage% 
 # Swap Usage.
 swap_info=$(swapon --show)
 if [ -n "$swap_info" ]; then
-    printf "%-${output_tab_space}s: %s\n" "Swap Usage" "Swap is in use (sudo swapoff -a  to turn off)"
+    printf "%-${output_tab_space}s: %s\n" "Swap Usage" "Swap is in use"
+    printf "%-${output_tab_space}s: %s\n" "Turn swap off" "sudo swapoff -a"
+    printf "%-${output_tab_space}s: %s\n" "Prevent restarting" "sudo vi /etc/fstab (comment out lines with swap or swapfile)"
     echo -e "$swap_info"
 else
     printf "%-${output_tab_space}s: %s\n" "Swap Usage" "No active swap"
