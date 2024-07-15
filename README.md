@@ -12,14 +12,21 @@ sudo apt install bash
 
 # First Setup
 
-### Quick 
+### Quick Option 1 (few people are expected to log into server)
 ```bash
-mkdir -p /linux-server-status
-cd /linux-server-status
-git clone https://github.com/Sokrates1989/linux-server-status.git .
+sudo mkdir -p /tools/linux-server-status
+cd /tools/linux-server-status
+sudo git clone https://github.com/Sokrates1989/linux-server-status.git .
 ```
 
-### Custom dir 
+### Quick Option 2 (default location for administrative installations)
+```bash
+sudo mkdir -p /usr/local/linux-server-status
+cd /usr/local/linux-server-status
+sudo git clone https://github.com/Sokrates1989/linux-server-status.git .
+```
+
+### Custom location
 ```bash
 # Choose location on server (replace desired destintation with /desired/destination).
 mkdir -p /desired/destination/linux-server-status
@@ -30,15 +37,18 @@ git clone https://github.com/Sokrates1989/linux-server-status.git .
 
 # Usage
 
-### Quick 
+### Quick Option 1
 ```bash
-bash /linux-server-status/get_info.sh
+bash /tools/linux-server-status/get_info.sh
+```
+### Quick Option 2
+```bash
+bash /usr/local/linux-server-status/get_info.sh
 ```
 ### Custom dir 
 ```bash
 bash /desired/destination/linux-server-status/get_info.sh
 ```
-
 
 # Output Files for messaging.
 Also writes percentages of server usage into files so that they can be mapped into docker images. These files can be used to monitor the server state and send server state infos via Telegram, email or other messaging tools.
