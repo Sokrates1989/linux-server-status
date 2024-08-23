@@ -173,10 +173,7 @@ get_restart_information() {
         fi
 
         # Check if the server is part of a Docker Swarm.
-        # TODO DEBUG REMOVE.
-        if true; then
-        # if docker info | grep -q "Swarm: active"; then
-        # TODO DEBUG END.
+        if docker info | grep -q "Swarm: active"; then
 
             # Reboot instructions to avoid downtime.
             local node_name=$(hostname)
