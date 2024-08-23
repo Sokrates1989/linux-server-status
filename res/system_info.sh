@@ -7,6 +7,8 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 DESTINATION_DIR="$MAIN_DIR/server-states"
 
+# Global functions.
+source "$SCRIPT_DIR/functions.sh"
 
 # Function to display cpu info.
 get_cpu_info() {
@@ -38,27 +40,6 @@ get_total_network_info_human() {
     bash "$SCRIPT_DIR/network_info.sh" -a -h
 }
 
-# Function to convert seconds to a human-readable format.
-convert_seconds_to_human_readable() {
-    # Parameters of this function.
-    local seconds="$1"
-
-    # Conversion.
-    local days=$((seconds / 86400))
-    local hours=$(( (seconds % 86400) / 3600 ))
-    local minutes=$(( (seconds % 3600) / 60 ))
-    local seconds=$((seconds % 60))
-
-    # Concatenate result.
-    local result=""
-    if [ "$days" -gt 0 ]; then
-        result="${days}d "
-    fi
-    result="${result}${hours}h ${minutes}m ${seconds}s"
-
-    # Return result.
-    echo -e "$result"
-}
 
 # Function to convert a bash array to json.
 array_to_json() {

@@ -14,6 +14,9 @@ networking_tab_space=28 # The space until the colon to align all output info to
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+# Global functions.
+source "$SCRIPT_DIR/functions.sh"
+
 # Function to display cpu usage.
 display_cpu_info() {
     bash "$SCRIPT_DIR/cpu_info.sh" -s -t $output_tab_space # To display short info with tab space
@@ -27,28 +30,6 @@ display_network_info() {
 # Function to display short gluster info.
 display_gluster_info() {
     bash "$SCRIPT_DIR/gluster_info.sh" -s -t $output_tab_space # To display short info with tab space
-}
-
-# Function to convert seconds to a human-readable format.
-convert_seconds_to_human_readable() {
-    # Parameters of this function.
-    local seconds="$1"
-
-    # Conversion.
-    local days=$((seconds / 86400))
-    local hours=$(( (seconds % 86400) / 3600 ))
-    local minutes=$(( (seconds % 3600) / 60 ))
-    local seconds=$((seconds % 60))
-
-    # Concatenate result.
-    local result=""
-    if [ "$days" -gt 0 ]; then
-        result="${days}d "
-    fi
-    result="${result}${hours}h ${minutes}m ${seconds}s"
-
-    # Return result.
-    echo -e "$result"
 }
 
 
@@ -145,17 +126,8 @@ else
 fi
 
 
-# Restart required?
-timestamp=$(date +%s)
-restart_required_timestamp=""
-if [ -f /var/run/reboot-required ]; then
-    restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
-    time_elapsed=$((timestamp - restart_required_timestamp))
-    time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
-    printf "%-${output_tab_space}s: %s\n" "Restart required" "Yes, since $time_elapsed_human_readable"
-else
-    printf "%-${output_tab_space}s: %s\n" "Restart required" "No"
-fi
+# Print user info, if a restart is required including possible restart instructions.
+get_restart_information "short" $output_tab_space
 
 
 

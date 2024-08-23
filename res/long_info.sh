@@ -4,6 +4,9 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MAIN_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+# Global functions.
+source "$SCRIPT_DIR/functions.sh"
+
 # Function to display available system updates.
 display_update_info() {
     bash "$SCRIPT_DIR/update_info.sh"
@@ -24,27 +27,6 @@ display_gluster_info() {
     bash "$SCRIPT_DIR/gluster_info.sh" -l  # To display long info.
 }
 
-# Function to convert seconds to a human-readable format.
-convert_seconds_to_human_readable() {
-    # Parameters of this function.
-    local seconds="$1"
-
-    # Conversion.
-    local days=$((seconds / 86400))
-    local hours=$(( (seconds % 86400) / 3600 ))
-    local minutes=$(( (seconds % 3600) / 60 ))
-    local seconds=$((seconds % 60))
-
-    # Concatenate result.
-    local result=""
-    if [ "$days" -gt 0 ]; then
-        result="${days}d "
-    fi
-    result="${result}${hours}h ${minutes}m ${seconds}s"
-
-    # Return result.
-    echo -e "$result"
-}
 
 # Output system info.
 echo -e "\nSystem Information:"
@@ -94,18 +76,9 @@ display_update_info
 
 
 
-# Restart required?
+# Print user info, if a restart is required including possible restart instructions.
 echo -e "\n\n"
-timestamp=$(date +%s)
-restart_required_timestamp=""
-if [ -f /var/run/reboot-required ]; then
-    restart_required_timestamp=$(stat -c %Y /var/run/reboot-required)
-    time_elapsed=$((timestamp - restart_required_timestamp))
-    time_elapsed_human_readable=$(convert_seconds_to_human_readable "$time_elapsed")
-    echo -e "System restart required since $time_elapsed_human_readable"
-else
-    echo -e "No restart required"
-fi
+get_restart_information
 
 
 # Is the repo of this project itself up to date?
