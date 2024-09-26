@@ -1,6 +1,14 @@
 # linux-server-status
 Quick output of server status. Similar to info upon login via ssh.
 
+# Preview
+
+## Basic usage
+![Basic usage Gif](demo-media/gif/basic_usage_procedure.gif) ![Basic usage](demo-media/screenshots/basic_usage.png) ![Basic usage Zoomed](demo-media/screenshots/basic_usage_zoomed.png) 
+
+## Update procedure
+![Update procedure Gif](demo-media/gif/update_procedure.gif) ![Update usage](demo-media/screenshots/update_usage.png)
+
 # Prerequisities
 Install Bash
 
