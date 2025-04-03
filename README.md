@@ -10,11 +10,50 @@ Quick output of server status. Similar to info upon login via ssh.
 ![Update usage](demo-media/screenshots/update_usage.png)
 
 # Prerequisities
-Install Bash
+### Install Bash
 
 ```bash
 sudo apt update
 sudo apt install bash
+```
+
+### Set locale to english
+
+Why? -> The tool reads cli-outputs to retrieve info -> must ensure that those outputs look the same
+
+Verify your current locale setting is not english (e.g.: en_US.UTF-8)
+```bash
+locale
+```
+
+Change locale to english
+```bash
+sudo dpkg-reconfigure locales
+```
+In the dialog:
+- Use spacebar to select en_US.UTF-8 (or another English locale like en_GB.UTF-8).
+- Make sure to deselect de_DE.UTF-8 if you want to remove German completely.
+- Press Enter to continue.
+- Then choose en_US.UTF-8 (or your preferred English) as the default.
+
+#### (Optional) Set locale permanently for all users
+You can manually edit the file:
+
+```bash
+sudo vi /etc/default/locale
+```
+And set the contents like:
+
+
+```ini
+LANG="en_US.UTF-8"
+LANGUAGE="en_US:en"
+LC_ALL="en_US.UTF-8"
+```
+
+Save and reboot (or log out and back in):
+```bash
+sudo reboot
 ```
 
 
