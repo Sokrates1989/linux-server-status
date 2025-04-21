@@ -56,87 +56,71 @@ Save and reboot (or log out and back in):
 sudo reboot
 ```
 
+# 🧰 First Setup
 
-# First Setup
+Installiere `linux-server-status` unter `~/tools/linux-server-status`, erstelle einen globalen Befehl `server-info`, und mache ihn dauerhaft verfügbar:
 
-### Quick Option 1 (few people are expected to log into server)
+### 🚀 Einfach den folgenden Block im Terminal ausführen:
 ```bash
-sudo mkdir -p /tools/linux-server-status
-cd /tools/linux-server-status
-sudo git clone https://github.com/Sokrates1989/linux-server-status.git .
+ORIGINAL_DIR=$(pwd)
+mkdir -p /tmp/server-info-setup && cd /tmp/server-info-setup
+curl -sO https://raw.githubusercontent.com/Sokrates1989/linux-server-status/main/setup/linux-cli.sh
+bash linux-cli.sh
+cd "$ORIGINAL_DIR"
+rm -rf /tmp/server-info-setup
+
+# Apply PATH update in current shell (if not already applied)
+export PATH="$HOME/.local/bin:$PATH"
+hash -r
 ```
 
-### Quick Option 2 (default location for administrative installations)
+---
+
+# 🚀 Usage
+
+### ✨ Einfacher Aufruf überall im Terminal:
 ```bash
-sudo mkdir -p /usr/local/linux-server-status
-cd /usr/local/linux-server-status
-sudo git clone https://github.com/Sokrates1989/linux-server-status.git .
+server-info
 ```
 
-### Custom location
+---
+
+# 📄 JSON Output für Messaging / Automatisierung
+
+### 🔧 Standard-Output-Datei
 ```bash
-# Choose location on server (replace desired destintation with /desired/destination).
-mkdir -p /desired/destination/linux-server-status
-cd /desired/destination/linux-server-status
-git clone https://github.com/Sokrates1989/linux-server-status.git .
+server-info --json
 ```
 
-
-# Usage
-
-### Quick Option 1
+### 📝 Benutzerdefinierte Output-Datei
 ```bash
-bash /tools/linux-server-status/get_info.sh
-```
-### Quick Option 2
-```bash
-bash /usr/local/linux-server-status/get_info.sh
-```
-### Custom dir 
-```bash
-bash /desired/destination/linux-server-status/get_info.sh
-```
-
-# Output Files for messaging.
-Also writes percentages of server usage into files so that they can be mapped into docker images. These files can be used to monitor the server state and send server state infos via Telegram, email or other messaging tools.
-
-## Json
-
-#### Default json output file
-Writes output to path/to/server-states/system_info.json
-```bash
-bash /path/to/get_info.sh --json
-```
-
-#### Custom file
-You can also provide a custom file where to write the json file to
-```bash
-# Ensure custom file exists.
+# Stelle sicher, dass der Zielordner existiert
 mkdir -p /custom/path
 touch /custom/path/file.json
 
-# Command option short.
-bash /path/to/get_info.sh --json -o /custom/path/file.json
-# Command option long.
-bash /path/to/get_info.sh --json --output-file /custom/path/file.json
+# Mit Kurzoption:
+server-info --json -o /custom/path/file.json
+
+# Oder mit Langoption:
+server-info --json --output-file /custom/path/file.json
 ```
 
+---
 
-### Cronjob
-Setup cron to get periodic system info.
+# ⏰ Automatisierung per Cronjob
 
+### Öffne Crontab im Editiermodus:
 ```bash
-# Open crontab in edit mode.
 crontab -e
 ```
 
+### Beispiel 1 – stündlich zur Minute 59:
 ```bash
-# Execute command every hour at :59 min .
-59 * * * * /bin/bash /path/to/get_info.sh --json --output-file /custom/path/file.json
-
-# Second Example as used on prod servers.
-59 * * * * /bin/bash /gluster_storage/linux-server-status/get_info.sh --json --output-file /serverInfo/system_info.json
+59 * * * * /usr/local/bin/server-info --json --output-file /custom/path/file.json
 ```
 
-
+### Beispiel 2 – produktiver Einsatz:
+```bash
+59 * * * * /usr/local/bin/server-info --json --output-file /serverInfo/system_info.json
+```
 
