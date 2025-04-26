@@ -126,7 +126,7 @@ sudo apt-get update -qq
 updates=$(apt list --upgradable 2>/dev/null)
 if [ "${#updates}" -gt 10 ]; # Checks length of updates var, because also a fully updated system returns the string "Listing..."
 then
-    printf "%-${output_tab_space}s: %s\n" "Updates Available" "Yes (use -u option to view all available updates -> bash $MAIN_DIR/get_info.sh -u )"
+    printf "%-${output_tab_space}s: %s\n" "Updates Available" "Yes (use -u option to view all available updates -> server-info -u )"
 else
     printf "%-${output_tab_space}s: %s\n" "Updates Available" "No"
 fi
@@ -209,8 +209,8 @@ cd "$current_dir"
 
 # Spacer.
 echo -e "\n"
-echo -e "To view full system report use -f option -> bash $MAIN_DIR/get_info.sh -f  "
-echo -e "To view all available options use --help -> bash $MAIN_DIR/get_info.sh --help  "
+echo -e "To view full system report use -f option -> server-info -f  "
+echo -e "To view all available options use --help -> server-info --help  "
 echo -e ""
 
 

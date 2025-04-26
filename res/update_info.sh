@@ -24,7 +24,7 @@ then
     
     # Tell user how to apply them.
     echo -e "\nTo update you can use this:"
-    echo -e "sudo apt-get -y update && sudo apt-get -y upgrade && bash $MAIN_DIR/get_info.sh -u"
+    echo -e "sudo apt-get -y update && sudo apt-get -y upgrade && server-info -u"
     
     echo -e "\nIf there are still updates remaining, try these:"
     echo -e "sudo apt-get --with-new-pkgs upgrade <list of packages kept back>"
