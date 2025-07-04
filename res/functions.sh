@@ -175,9 +175,9 @@ get_restart_information() {
         # Check if the server is part of a Docker Swarm.
         if command -v docker &> /dev/null && docker info | grep -q "Swarm: active"; then
 
-            # Reboot instructions to avoid downtime.
+            # Reboot instructions to avoid downtime and prevent write errors.
             local node_name=$(hostname)
-            echo -e "\nRestart instructions/advice to decrease downtime of containers:"
+            echo -e "\nRestart instructions/advice to decrease downtime of containers and prevent write errors:"
             echo "DO NOT simply reboot. Instead, follow these steps:"
             echo ""
             echo "1. Drain the node (all services/containers will be redeployed onto different nodes):"
