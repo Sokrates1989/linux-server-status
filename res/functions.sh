@@ -189,7 +189,7 @@ get_restart_information() {
             # Find the location of the swarm-info/get_info.sh script
             local swarm_info_script_location=$(find_swarm_info_script)
             if [ -n "$swarm_info_script_location" ]; then
-                echo "   watch bash $swarm_info_script_location --node-services"
+                echo "   watch swarm-info --node-services"
             else
                 echo "   To easily view service distribution across nodes, please install swarm-info from https://github.com/Sokrates1989/swarm-info"
             fi
