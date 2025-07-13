@@ -212,12 +212,38 @@ get_restart_information() {
             echo "   docker service update --force <service_name>"
         fi
     else
-
         # Print user info: System needs to be restarted.
         if [ "$output_options" == "short" ]; then
             printf "%-${output_tab_space}s: %s\n" "Restart required" "No"
         else
             echo -e "No restart required"
+        fi
+    fi
+
+    # Check if Docker Swarm is active and node is drained (for post-reboot reactivation)
+    if command -v docker &> /dev/null && docker info | grep -q "Swarm: active"; then
+        local node_name=$(hostname)
+        local node_availability=$(docker node inspect "$node_name" --format '{{.Spec.Availability}}' 2>/dev/null)
+        
+        if [ "$node_availability" = "drain" ]; then
+            echo -e "\n⚠️  Docker Swarm Node Status: DRAINED"
+            echo "This node is currently drained and not accepting new services."
+            echo ""
+            echo "To reactivate this node and make it available for services again:"
+            echo "   docker node update --availability active $node_name"
+            echo ""
+            echo "To verify the node is active:"
+            echo "   docker node ls"
+            echo ""
+            
+            # Find the location of the swarm-info/get_info.sh script
+            local swarm_info_script_location=$(find_swarm_info_script)
+            if [ -n "$swarm_info_script_location" ]; then
+                echo "To monitor service distribution across nodes:"
+                echo "   watch bash $swarm_info_script_location --node-services"
+            else
+                echo "To easily view service distribution across nodes, please install swarm-info from https://github.com/Sokrates1989/swarm-info"
+            fi
         fi
     fi
 }
